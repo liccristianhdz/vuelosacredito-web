@@ -25,10 +25,6 @@
         html{scroll-behavior:smooth}
         body{font-family:'Inter',-apple-system,sans-serif;color:var(--gray-800);background:var(--white);line-height:1.6;overflow-x:hidden}
 
-        /* SSL Banner */
-        .ssl-bar{background:var(--success);color:#fff;text-align:center;padding:6px 1rem;font-size:.78rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px}
-        .ssl-bar svg{width:14px;height:14px}
-
         /* NAV */
         .nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 2rem;transition:all .4s cubic-bezier(.4,0,.2,1)}
         .nav.scrolled{background:rgba(10,22,40,.97);backdrop-filter:blur(20px);box-shadow:0 4px 30px rgba(0,0,0,.15)}
@@ -318,8 +314,6 @@
         .footer-social a{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.6);transition:all .3s;text-decoration:none}
         .footer-social a:hover{background:var(--accent);color:var(--primary)}
         .footer-social a svg{width:16px;height:16px}
-        .footer-ssl{display:flex;align-items:center;gap:6px;color:var(--success);font-weight:600;font-size:.78rem}
-        .footer-ssl svg{width:14px;height:14px}
 
         /* WhatsApp Float */
         .wa-float{position:fixed;bottom:2rem;right:2rem;width:56px;height:56px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;color:white;box-shadow:0 4px 20px rgba(37,211,102,.4);z-index:999;transition:transform .3s;text-decoration:none}
@@ -361,12 +355,6 @@
 </head>
 <body>
 
-<!-- SSL BAR -->
-<div class="ssl-bar">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-    Sitio protegido con certificado SSL &mdash; vuelosacredito.com
-</div>
-
 <!-- NAV -->
 <nav class="nav" id="nav">
     <div class="nav-inner">
@@ -394,8 +382,8 @@
     <div class="hero-content">
         <div>
             <div class="hero-badge">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                Sitio Seguro &bull; SSL Protegido
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Servicio Personalizado en Viajes
             </div>
             <h1>Vuela ahora,<br><em>paga a tu ritmo</em></h1>
             <p class="hero-sub">Aparta tu vuelo con anticipación y págalo en cómodas semanas o quincenas antes de volar. Para empresas y gobierno: crédito de hasta $100,000 MXN, vuela ahora y paga después.</p>
@@ -877,10 +865,6 @@
                 <img src="logo.png" alt="Vuelos a Crédito .com" style="height:42px">
             </a>
             <p>Tu agencia de viajes con financiamiento inteligente. Vuelos a crédito para todos con servicio personalizado. Aerolíneas: Viva Aerobus y Volaris.</p>
-            <div class="footer-ssl" style="margin-top:1rem">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-                Sitio protegido con SSL
-            </div>
         </div>
         <div>
             <h4>Servicios</h4>
