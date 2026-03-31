@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vuelos a Crédito | vuelosacredito.com - Vuela Ahora, Paga a Tu Ritmo</title>
+    <meta name="description" content="Vuelos a crédito para todos. Financia tu vuelo en semanas o quincenas. Crédito empresarial hasta $100,000 MXN. Viva Aerobus y Volaris.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --primary:#0a1628;--primary-light:#12243f;--accent:#d4a029;--accent-hover:#c4911f;
+            --accent-light:#fdf6e3;--sky:#3b7dd8;--sky-light:#e8f1fd;--white:#fff;
+            --gray-50:#f7f8fb;--gray-100:#eef0f5;--gray-200:#dde1eb;--gray-400:#97a0b8;
+            --gray-600:#556078;--gray-800:#2b3148;--success:#16a34a;--danger:#dc2626;
+            --gradient-hero:linear-gradient(135deg,#0a1628 0%,#132b54 50%,#1a3f73 100%);
+            --gradient-gold:linear-gradient(135deg,#d4a029 0%,#f0c96e 50%,#d4a029 100%);
+            --gradient-card:linear-gradient(180deg,#fff 0%,#f8f9fc 100%);
+            --shadow-sm:0 1px 3px rgba(10,22,40,0.08);--shadow-md:0 4px 20px rgba(10,22,40,0.1);
+            --shadow-lg:0 8px 40px rgba(10,22,40,0.12);--shadow-xl:0 20px 60px rgba(10,22,40,0.15);
+            --radius:16px;--radius-sm:10px;
+        }
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',-apple-system,sans-serif;color:var(--gray-800);background:var(--white);line-height:1.6;overflow-x:hidden}
+
+        /* SSL Banner */
+        .ssl-bar{background:var(--success);color:#fff;text-align:center;padding:6px 1rem;font-size:.78rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px}
+        .ssl-bar svg{width:14px;height:14px}
+
+        /* NAV */
+        .nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 2rem;transition:all .4s cubic-bezier(.4,0,.2,1)}
+        .nav.scrolled{background:rgba(10,22,40,.97);backdrop-filter:blur(20px);box-shadow:0 4px 30px rgba(0,0,0,.15)}
+        .nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:72px}
+        .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--white);font-weight:800;font-size:1.25rem}
+        .logo img{height:48px;width:auto}
+        .logo span{color:var(--accent)}
+        .nav-links{display:flex;align-items:center;gap:1.8rem;list-style:none}
+        .nav-links a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .3s}
+        .nav-links a:hover{color:var(--accent)}
+        .nav-cta{background:var(--gradient-gold)!important;color:var(--primary)!important;padding:10px 22px;border-radius:50px;font-weight:700!important;font-size:.82rem!important;transition:transform .3s,box-shadow .3s!important}
+        .nav-cta:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,160,41,.4)}
+        .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:5px}
+        .hamburger span{width:26px;height:2.5px;background:var(--white);border-radius:2px;transition:all .3s}
+
+        /* HERO */
+        .hero{background:var(--gradient-hero);min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:100px 2rem 80px}
+        .hero::before{content:'';position:absolute;top:-50%;right:-20%;width:80%;height:200%;background:radial-gradient(ellipse,rgba(59,125,216,.12) 0%,transparent 70%);animation:heroGlow 8s ease-in-out infinite alternate}
+        @keyframes heroGlow{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-5%,5%) scale(1.1)}}
+        .hero-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+        .particle{position:absolute;background:rgba(212,160,41,.2);border-radius:50%;animation:float linear infinite}
+        @keyframes float{0%{transform:translateY(100vh) rotate(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-100vh) rotate(720deg);opacity:0}}
+        .hero-content{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;position:relative;z-index:2}
+        .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(212,160,41,.12);border:1px solid rgba(212,160,41,.25);padding:8px 18px;border-radius:50px;color:var(--accent);font-size:.8rem;font-weight:600;margin-bottom:1.5rem;backdrop-filter:blur(10px)}
+        .hero-badge svg{width:16px;height:16px}
+        .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,4.5vw,3.6rem);color:var(--white);line-height:1.15;margin-bottom:1.5rem}
+        .hero h1 em{font-style:normal;background:var(--gradient-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hero-sub{color:rgba(255,255,255,.7);font-size:1.1rem;line-height:1.7;margin-bottom:2.5rem;max-width:520px}
+        .hero-buttons{display:flex;gap:1rem;flex-wrap:wrap}
+        .btn{display:inline-flex;align-items:center;gap:8px;padding:15px 30px;border-radius:50px;font-weight:700;font-size:.92rem;text-decoration:none;border:none;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);font-family:inherit}
+        .btn-primary{background:var(--gradient-gold);color:var(--primary);box-shadow:0 4px 20px rgba(212,160,41,.3)}
+        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(212,160,41,.5)}
+        .btn-outline{background:transparent;color:var(--white);border:2px solid rgba(255,255,255,.25)}
+        .btn-outline:hover{border-color:var(--accent);color:var(--accent);background:rgba(212,160,41,.05)}
+        .btn-white{background:var(--white);color:var(--primary)}
+        .btn-white:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+        .hero-stats{display:flex;gap:2.5rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.08)}
+        .stat-item h3{font-size:1.8rem;font-weight:800;color:var(--accent)}
+        .stat-item p{font-size:.78rem;color:rgba(255,255,255,.5);margin-top:2px}
+        .hero-airlines{margin-top:2rem;display:flex;align-items:center;gap:1.5rem}
+        .hero-airlines span{font-size:.75rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;font-weight:600}
+        .airline-logos{display:flex;gap:1.5rem;align-items:center}
+        .airline-logo{background:rgba(255,255,255,.1);padding:8px 16px;border-radius:8px;color:rgba(255,255,255,.7);font-weight:700;font-size:.85rem;backdrop-filter:blur(10px)}
+
+        /* Hero Visual - Simulador rápido */
+        .hero-visual{position:relative;display:flex;justify-content:center;align-items:center}
+        .hero-card{background:rgba(255,255,255,.06);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:2.5rem;width:100%;max-width:460px}
+        .hero-card-title{color:var(--white);font-size:1rem;font-weight:700;margin-bottom:1.5rem;display:flex;align-items:center;gap:8px}
+        .hero-card-title svg{width:20px;height:20px;color:var(--accent)}
+        .hc-field{margin-bottom:1rem}
+        .hc-field label{display:block;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+        .hc-field input,.hc-field select{width:100%;padding:12px 14px;border:1px solid rgba(255,255,255,.15);border-radius:10px;background:rgba(255,255,255,.06);color:var(--white);font-size:.95rem;font-family:inherit;transition:border-color .3s}
+        .hc-field input:focus,.hc-field select:focus{outline:none;border-color:var(--accent)}
+        .hc-field select option{background:var(--primary);color:#fff}
+        .hc-field input::placeholder{color:rgba(255,255,255,.3)}
+        .hc-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+        .hc-btn{width:100%;padding:14px;background:var(--gradient-gold);border:none;border-radius:10px;font-size:.95rem;font-weight:700;color:var(--primary);cursor:pointer;font-family:inherit;transition:all .3s;margin-top:.5rem}
+        .hc-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,160,41,.4)}
+        .hc-result{margin-top:1.2rem;padding:1.2rem;background:rgba(255,255,255,.06);border-radius:12px;display:none}
+        .hc-result.active{display:block;animation:fadeUp .4s ease}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        .hc-result-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88rem}
+        .hc-result-row:last-child{border:none}
+        .hc-result-row .label{color:rgba(255,255,255,.5)}
+        .hc-result-row .value{color:var(--white);font-weight:700}
+        .hc-result-row .value.gold{color:var(--accent);font-size:1.1rem}
+        .hc-result-row.warn .value{color:#fbbf24;font-size:.8rem;font-weight:500}
+        .hc-result-row.error .value{color:#f87171;font-size:.8rem;font-weight:500}
+
+        /* SECTIONS */
+        section{padding:90px 2rem}
+        .container{max-width:1200px;margin:0 auto}
+        .section-label{display:inline-flex;align-items:center;gap:8px;background:var(--sky-light);color:var(--sky);padding:6px 16px;border-radius:50px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem}
+        .section-label.gold{background:var(--accent-light);color:var(--accent-hover)}
+        .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.2vw,2.6rem);color:var(--primary);margin-bottom:1rem;line-height:1.2}
+        .section-desc{color:var(--gray-600);font-size:1.05rem;max-width:620px;line-height:1.7}
+        .text-center{text-align:center}
+        .text-center .section-desc{margin-inline:auto}
+
+        /* COMO FUNCIONA */
+        #como-funciona{background:var(--gray-50)}
+        .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem;position:relative}
+        .steps-grid::before{content:'';position:absolute;top:40px;left:12.5%;right:12.5%;height:2px;background:var(--gray-200)}
+        .step{text-align:center;position:relative}
+        .step-num{width:52px;height:52px;border-radius:50%;background:var(--white);border:3px solid var(--primary);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:var(--primary);margin:0 auto 1.2rem;position:relative;z-index:2;transition:all .3s}
+        .step:hover .step-num{background:var(--primary);color:var(--white);transform:scale(1.1)}
+        .step h4{font-size:.95rem;font-weight:700;color:var(--primary);margin-bottom:.4rem}
+        .step p{font-size:.83rem;color:var(--gray-600);line-height:1.55;padding:0 .5rem}
+
+        /* MODALIDADES */
+        .modalities-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
+        .modality-card{background:var(--gradient-card);border-radius:var(--radius);padding:2.2rem 1.8rem;border:1px solid var(--gray-200);transition:all .4s;position:relative;overflow:hidden}
+        .modality-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:var(--radius) var(--radius) 0 0}
+        .modality-card:nth-child(1)::before{background:var(--sky)}
+        .modality-card:nth-child(2)::before{background:var(--accent)}
+        .modality-card:nth-child(3)::before{background:var(--success)}
+        .modality-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-xl);border-color:transparent}
+        .modality-icon{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem}
+        .modality-card:nth-child(1) .modality-icon{background:var(--sky-light);color:var(--sky)}
+        .modality-card:nth-child(2) .modality-icon{background:var(--accent-light);color:var(--accent)}
+        .modality-card:nth-child(3) .modality-icon{background:#dcfce7;color:var(--success)}
+        .modality-icon svg{width:26px;height:26px}
+        .modality-card h3{font-size:1.15rem;font-weight:700;color:var(--primary);margin-bottom:.6rem}
+        .modality-card>p{color:var(--gray-600);font-size:.88rem;line-height:1.6;margin-bottom:1.2rem}
+        .modality-tag{display:inline-block;padding:4px 12px;border-radius:50px;font-size:.72rem;font-weight:700}
+        .modality-card:nth-child(1) .modality-tag{background:var(--sky-light);color:var(--sky)}
+        .modality-card:nth-child(2) .modality-tag{background:var(--accent-light);color:var(--accent-hover)}
+        .modality-card:nth-child(3) .modality-tag{background:#dcfce7;color:#16a34a}
+        .modality-features{list-style:none;margin-top:1rem;display:flex;flex-direction:column;gap:.5rem}
+        .modality-features li{display:flex;align-items:center;gap:7px;font-size:.82rem;color:var(--gray-600)}
+        .modality-features li svg{width:16px;height:16px;color:var(--success);flex-shrink:0}
+        .check-svg{width:16px;height:16px;color:var(--success);flex-shrink:0}
+
+        /* REGLAS DE CRÉDITO */
+        .rules-box{margin-top:2.5rem;background:var(--primary);border-radius:var(--radius);padding:2.5rem;color:var(--white)}
+        .rules-box h3{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:1.5rem;color:var(--accent)}
+        .rules-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem}
+        .rule-item{display:flex;gap:1rem;align-items:flex-start}
+        .rule-num{width:36px;height:36px;border-radius:50%;background:rgba(212,160,41,.15);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent);font-size:.85rem;flex-shrink:0}
+        .rule-item h5{font-size:.9rem;font-weight:700;margin-bottom:3px}
+        .rule-item p{font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.5}
+
+        /* SIMULADOR */
+        #simulador{background:var(--gray-50)}
+        .simulator-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:3rem;align-items:start}
+        .sim-box{background:var(--white);border-radius:var(--radius);padding:2.5rem;box-shadow:var(--shadow-lg);border:1px solid var(--gray-200)}
+        .sim-box h3{font-size:1.15rem;font-weight:700;color:var(--primary);margin-bottom:1.5rem;display:flex;align-items:center;gap:8px}
+        .sim-box h3 svg{color:var(--accent)}
+        .sim-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+        .sim-field{margin-bottom:0}
+        .sim-field.full{grid-column:1/-1}
+        .sim-field label{display:block;font-size:.78rem;font-weight:600;color:var(--gray-600);margin-bottom:5px;text-transform:uppercase;letter-spacing:.3px}
+        .sim-field input,.sim-field select{width:100%;padding:13px 14px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-size:.95rem;font-family:inherit;color:var(--gray-800);transition:border-color .3s;background:var(--white)}
+        .sim-field input:focus,.sim-field select:focus{outline:none;border-color:var(--sky)}
+        .sim-btn{width:100%;padding:15px;background:var(--gradient-gold);border:none;border-radius:var(--radius-sm);font-size:.95rem;font-weight:700;color:var(--primary);cursor:pointer;font-family:inherit;transition:all .3s;margin-top:.5rem}
+        .sim-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,160,41,.4)}
+
+        /* Resultado simulador */
+        .sim-result{background:var(--white);border-radius:var(--radius);padding:2.5rem;box-shadow:var(--shadow-lg);border:1px solid var(--gray-200);display:none}
+        .sim-result.active{display:block;animation:fadeUp .4s ease}
+        .sim-result h3{font-size:1.15rem;font-weight:700;color:var(--primary);margin-bottom:1.5rem}
+        .result-header{background:var(--primary);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;text-align:center}
+        .result-header p{color:rgba(255,255,255,.5);font-size:.78rem;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px}
+        .result-header h2{color:var(--accent);font-size:2.2rem;font-weight:900}
+        .result-header h2 small{font-size:.85rem;font-weight:500;color:rgba(255,255,255,.5)}
+        .result-rows{display:flex;flex-direction:column;gap:.6rem}
+        .result-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--gray-100)}
+        .result-row:last-child{border:none}
+        .result-row .rl{font-size:.88rem;color:var(--gray-600)}
+        .result-row .rv{font-size:.95rem;font-weight:700;color:var(--gray-800)}
+        .result-row .rv.accent{color:var(--accent)}
+        .result-row .rv.green{color:var(--success)}
+        .result-note{margin-top:1.2rem;padding:1rem;background:var(--accent-light);border-radius:10px;font-size:.82rem;color:var(--accent-hover);line-height:1.5;display:flex;align-items:flex-start;gap:8px}
+        .result-note svg{width:18px;height:18px;flex-shrink:0;margin-top:1px}
+        .result-note.error-note{background:#fef2f2;color:var(--danger)}
+        .result-schedule{margin-top:1.2rem}
+        .result-schedule h4{font-size:.85rem;font-weight:700;color:var(--primary);margin-bottom:.8rem;text-transform:uppercase;letter-spacing:.5px}
+        .schedule-bar{display:flex;gap:4px;margin-bottom:.5rem}
+        .schedule-dot{flex:1;height:8px;border-radius:4px;background:var(--gray-200)}
+        .schedule-dot.paid{background:var(--success)}
+        .schedule-dot.enganche{background:var(--accent)}
+        .schedule-legend{display:flex;gap:1.2rem;margin-top:.5rem}
+        .schedule-legend span{font-size:.72rem;color:var(--gray-400);display:flex;align-items:center;gap:4px}
+        .schedule-legend span::before{content:'';width:8px;height:8px;border-radius:50%}
+        .schedule-legend .leg-enganche::before{background:var(--accent)}
+        .schedule-legend .leg-pago::before{background:var(--success)}
+        .schedule-legend .leg-pending::before{background:var(--gray-200)}
+
+        /* PROMOS */
+        #promociones{background:var(--white)}
+        .promos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
+        .promo-card{background:var(--gradient-card);border-radius:var(--radius);padding:2rem 1.8rem;border:1px solid var(--gray-200);text-align:center;transition:all .3s;position:relative;overflow:hidden}
+        .promo-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+        .promo-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+        .promo-card:nth-child(1)::after{background:var(--accent)}
+        .promo-card:nth-child(2)::after{background:var(--sky)}
+        .promo-card:nth-child(3)::after{background:#8b5cf6}
+        .promo-icon{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;font-size:1.8rem}
+        .promo-card:nth-child(1) .promo-icon{background:var(--accent-light)}
+        .promo-card:nth-child(2) .promo-icon{background:var(--sky-light)}
+        .promo-card:nth-child(3) .promo-icon{background:#ede9fe}
+        .promo-card h3{font-size:1.1rem;font-weight:700;color:var(--primary);margin-bottom:.5rem}
+        .promo-card p{font-size:.88rem;color:var(--gray-600);line-height:1.6}
+        .promo-badge{display:inline-block;margin-top:1rem;padding:5px 14px;border-radius:50px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+        .promo-card:nth-child(1) .promo-badge{background:var(--accent-light);color:var(--accent-hover)}
+        .promo-card:nth-child(2) .promo-badge{background:var(--sky-light);color:var(--sky)}
+        .promo-card:nth-child(3) .promo-badge{background:#ede9fe;color:#7c3aed}
+
+        /* FIDELIDAD */
+        .loyalty-section{margin-top:3rem;background:var(--primary);border-radius:var(--radius);padding:3rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+        .loyalty-section h3{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--white);margin-bottom:1rem}
+        .loyalty-section>div>p{color:rgba(255,255,255,.6);font-size:.92rem;line-height:1.6;margin-bottom:1.5rem}
+        .loyalty-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:1.5rem}
+        .loyalty-stamps{display:grid;grid-template-columns:repeat(5,1fr);gap:.6rem}
+        .stamp{aspect-ratio:1;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:rgba(255,255,255,.3);font-weight:700;position:relative;border:1px solid rgba(255,255,255,.1)}
+        .stamp.milestone{border-color:var(--accent);background:rgba(212,160,41,.1)}
+        .stamp.milestone .milestone-label{position:absolute;bottom:-18px;font-size:.55rem;color:var(--accent);font-weight:700;white-space:nowrap}
+        .stamp svg{width:18px;height:18px;color:rgba(255,255,255,.2)}
+        .stamp.milestone svg{color:var(--accent)}
+        .loyalty-legend{margin-top:1.8rem;display:flex;flex-direction:column;gap:.5rem}
+        .loyalty-legend-item{display:flex;align-items:center;gap:8px;font-size:.82rem;color:rgba(255,255,255,.7)}
+        .loyalty-legend-item .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+        /* EMPRESAS */
+        #empresas{background:var(--gradient-hero);color:var(--white);position:relative;overflow:hidden;padding:100px 2rem}
+        #empresas::before{content:'';position:absolute;top:0;right:0;width:50%;height:100%;background:radial-gradient(ellipse at right,rgba(212,160,41,.06) 0%,transparent 70%)}
+        .empresas-layout{position:relative;z-index:2}
+        .empresas-top{text-align:center;margin-bottom:4rem}
+        #empresas .section-label{background:rgba(212,160,41,.12);color:var(--accent)}
+        #empresas .section-title{color:var(--white)}
+        #empresas .section-desc{color:rgba(255,255,255,.65);margin-inline:auto}
+        .empresas-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+        .empresa-benefits{display:flex;flex-direction:column;gap:1.5rem}
+        .empresa-benefit{display:flex;gap:1rem;align-items:flex-start}
+        .eb-icon{width:48px;height:48px;border-radius:12px;background:rgba(212,160,41,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .eb-icon svg{width:22px;height:22px;color:var(--accent)}
+        .empresa-benefit h4{font-size:.95rem;font-weight:700;color:var(--white);margin-bottom:3px}
+        .empresa-benefit p{font-size:.85rem;color:rgba(255,255,255,.55);line-height:1.5}
+        .empresa-amount{margin-top:2rem;padding:2rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;text-align:center}
+        .empresa-amount p{color:rgba(255,255,255,.5);font-size:.8rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:.3rem}
+        .empresa-amount h2{font-size:3rem;font-weight:900;background:var(--gradient-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .empresa-amount span{color:rgba(255,255,255,.4);font-size:.85rem}
+
+        /* Formulario Empresas */
+        .empresa-form-box{background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:2.5rem}
+        .empresa-form-box h3{font-size:1.2rem;font-weight:700;margin-bottom:.5rem}
+        .empresa-form-box>p{font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:1.5rem}
+        .ef-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem}
+        .ef-field{margin-bottom:0}
+        .ef-field.full{grid-column:1/-1}
+        .ef-field label{display:block;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px}
+        .ef-field input,.ef-field select,.ef-field textarea{width:100%;padding:11px 14px;border:1px solid rgba(255,255,255,.15);border-radius:10px;background:rgba(255,255,255,.06);color:var(--white);font-size:.9rem;font-family:inherit;transition:border-color .3s}
+        .ef-field input:focus,.ef-field select:focus,.ef-field textarea:focus{outline:none;border-color:var(--accent)}
+        .ef-field input::placeholder,.ef-field textarea::placeholder{color:rgba(255,255,255,.25)}
+        .ef-field select option{background:var(--primary);color:#fff}
+        .ef-field textarea{resize:vertical;min-height:70px}
+        .ef-btn{width:100%;padding:14px;background:var(--gradient-gold);border:none;border-radius:10px;font-size:.95rem;font-weight:700;color:var(--primary);cursor:pointer;font-family:inherit;transition:all .3s;margin-top:.5rem}
+        .ef-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,160,41,.4)}
+
+        /* SERVICIOS */
+        .services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem}
+        .service-item{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:1.8rem 1.3rem;text-align:center;transition:all .3s}
+        .service-item:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--accent)}
+        .service-item .svc-icon{width:48px;height:48px;border-radius:12px;background:var(--sky-light);color:var(--sky);display:flex;align-items:center;justify-content:center;margin:0 auto .8rem}
+        .service-item:hover .svc-icon{background:var(--accent-light);color:var(--accent)}
+        .service-item .svc-icon svg{width:22px;height:22px}
+        .service-item h4{font-size:.88rem;font-weight:700;color:var(--primary);margin-bottom:.4rem}
+        .service-item p{font-size:.8rem;color:var(--gray-600);line-height:1.5}
+
+        /* CTA */
+        .cta-section{background:var(--gradient-hero);padding:70px 2rem;text-align:center;position:relative;overflow:hidden}
+        .cta-section h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.4rem);color:var(--white);margin-bottom:.8rem;position:relative}
+        .cta-section p{color:rgba(255,255,255,.65);font-size:1.05rem;margin-bottom:1.8rem;position:relative}
+        .cta-section .btn{position:relative}
+
+        /* CONTACTO */
+        #contacto{background:var(--gray-50)}
+        .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:3rem}
+        .contact-info h3{font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:.8rem}
+        .contact-info>p{color:var(--gray-600);font-size:.92rem;line-height:1.7;margin-bottom:1.5rem}
+        .contact-methods{display:flex;flex-direction:column;gap:1rem}
+        .contact-method{display:flex;align-items:center;gap:1rem}
+        .cm-icon{width:44px;height:44px;border-radius:10px;background:var(--sky-light);color:var(--sky);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .cm-icon svg{width:20px;height:20px}
+        .contact-method h5{font-size:.8rem;color:var(--gray-400);font-weight:500}
+        .contact-method p{font-size:.92rem;color:var(--primary);font-weight:600;margin:0}
+        .contact-form{background:var(--white);padding:2.2rem;border-radius:var(--radius);box-shadow:var(--shadow-md);border:1px solid var(--gray-200)}
+        .contact-form .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+        .form-field{margin-bottom:1rem}
+        .contact-form label{display:block;font-size:.78rem;font-weight:600;color:var(--gray-600);margin-bottom:5px}
+        .contact-form input,.contact-form select,.contact-form textarea{width:100%;padding:11px 14px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-size:.92rem;font-family:inherit;color:var(--gray-800);transition:border-color .3s;background:var(--white)}
+        .contact-form textarea{resize:vertical;min-height:80px}
+        .contact-form input:focus,.contact-form select:focus,.contact-form textarea:focus{outline:none;border-color:var(--sky)}
+        .contact-form .btn{width:100%;justify-content:center}
+
+        /* FOOTER */
+        footer{background:var(--primary);padding:50px 2rem 25px;color:rgba(255,255,255,.6)}
+        .footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:2.5rem}
+        .footer-brand p{font-size:.85rem;line-height:1.7;margin-top:.8rem}
+        footer h4{color:var(--white);font-size:.85rem;font-weight:700;margin-bottom:1rem;text-transform:uppercase;letter-spacing:1px}
+        footer ul{list-style:none}
+        footer ul li{margin-bottom:.5rem}
+        footer ul a{color:rgba(255,255,255,.6);text-decoration:none;font-size:.85rem;transition:color .3s}
+        footer ul a:hover{color:var(--accent)}
+        .footer-bottom{max-width:1200px;margin:0 auto;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;font-size:.8rem}
+        .footer-social{display:flex;gap:.8rem}
+        .footer-social a{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.6);transition:all .3s;text-decoration:none}
+        .footer-social a:hover{background:var(--accent);color:var(--primary)}
+        .footer-social a svg{width:16px;height:16px}
+        .footer-ssl{display:flex;align-items:center;gap:6px;color:var(--success);font-weight:600;font-size:.78rem}
+        .footer-ssl svg{width:14px;height:14px}
+
+        /* WhatsApp Float */
+        .wa-float{position:fixed;bottom:2rem;right:2rem;width:56px;height:56px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;color:white;box-shadow:0 4px 20px rgba(37,211,102,.4);z-index:999;transition:transform .3s;text-decoration:none}
+        .wa-float:hover{transform:scale(1.1)}
+        .wa-float svg{width:28px;height:28px}
+
+        /* RESPONSIVE */
+        @media(max-width:1024px){
+            .modalities-grid,.promos-grid{grid-template-columns:1fr}
+            .steps-grid{grid-template-columns:repeat(2,1fr)}
+            .steps-grid::before{display:none}
+            .services-grid{grid-template-columns:repeat(2,1fr)}
+            .empresas-grid,.simulator-wrapper,.loyalty-section{grid-template-columns:1fr}
+            .footer-grid{grid-template-columns:repeat(2,1fr)}
+            .rules-grid{grid-template-columns:1fr}
+        }
+        @media(max-width:768px){
+            .hero-content{grid-template-columns:1fr;text-align:center}
+            .hero-sub{margin-inline:auto}
+            .hero-buttons{justify-content:center}
+            .hero-stats{justify-content:center;flex-wrap:wrap}
+            .hero-airlines{justify-content:center}
+            .hero-visual{margin-top:2rem}
+            .nav-links{display:none}
+            .hamburger{display:flex}
+            .nav-links.active{display:flex;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:rgba(10,22,40,.98);padding:1.5rem;gap:1.2rem;backdrop-filter:blur(20px)}
+            .steps-grid,.services-grid,.promos-grid{grid-template-columns:1fr}
+            .contact-grid{grid-template-columns:1fr}
+            .sim-row,.hc-row,.ef-row,.contact-form .form-row{grid-template-columns:1fr}
+            .footer-grid{grid-template-columns:1fr}
+            .footer-bottom{flex-direction:column;gap:1rem;text-align:center}
+            .loyalty-stamps{grid-template-columns:repeat(5,1fr)}
+        }
+
+        /* Reveal */
+        .reveal{opacity:0;transform:translateY(25px);transition:all .7s cubic-bezier(.4,0,.2,1)}
+        .reveal.visible{opacity:1;transform:translateY(0)}
+    </style>
+</head>
+<body>
+
+<!-- SSL BAR -->
+<div class="ssl-bar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+    Sitio protegido con certificado SSL &mdash; vuelosacredito.com
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+    <div class="nav-inner">
+        <a href="#" class="logo">
+            <img src="logo.png" alt="Vuelos a Crédito .com">
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#como-funciona">Proceso</a></li>
+            <li><a href="#modalidades">Modalidades</a></li>
+            <li><a href="#simulador">Simulador</a></li>
+            <li><a href="#promociones">Promociones</a></li>
+            <li><a href="#empresas">Empresas</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="#simulador" class="nav-cta">Cotizar Vuelo</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-particles" id="particles"></div>
+    <div class="hero-content">
+        <div>
+            <div class="hero-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Sitio Seguro &bull; SSL Protegido
+            </div>
+            <h1>Vuela ahora,<br><em>paga a tu ritmo</em></h1>
+            <p class="hero-sub">Aparta tu vuelo con anticipación y págalo en cómodas semanas o quincenas antes de volar. Para empresas y gobierno: crédito de hasta $100,000 MXN, vuela ahora y paga después.</p>
+            <div class="hero-buttons">
+                <a href="#simulador" class="btn btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+                    Simular Mi Plan de Pagos
+                </a>
+                <a href="#empresas" class="btn btn-outline">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                    Empresas y Gobierno
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item"><h3>5,000+</h3><p>Vuelos financiados</p></div>
+                <div class="stat-item"><h3>98%</h3><p>Clientes satisfechos</p></div>
+                <div class="stat-item"><h3>0%</h3><p>Intereses sobre tu vuelo</p></div>
+            </div>
+            <div class="hero-airlines">
+                <span>Aerolíneas:</span>
+                <div class="airline-logos">
+                    <div class="airline-logo">VivaAerobus</div>
+                    <div class="airline-logo">Volaris</div>
+                    <div class="airline-logo">Volaris+</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mini simulador hero -->
+        <div class="hero-visual">
+            <div class="hero-card">
+                <div class="hero-card-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+                    Cotiza tu vuelo en segundos
+                </div>
+                <div class="hc-row">
+                    <div class="hc-field">
+                        <label>Costo del vuelo</label>
+                        <input type="number" id="hCost" placeholder="Ej: 6000" value="6000">
+                    </div>
+                    <div class="hc-field">
+                        <label>Fecha de vuelo</label>
+                        <input type="date" id="hDate">
+                    </div>
+                </div>
+                <div class="hc-field">
+                    <label>Frecuencia de pago</label>
+                    <select id="hFreq">
+                        <option value="semanal">Semanal</option>
+                        <option value="quincenal" selected>Quincenal</option>
+                    </select>
+                </div>
+                <button class="hc-btn" onclick="heroCalc()">Calcular Plan de Pagos</button>
+                <div class="hc-result" id="hResult"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section id="como-funciona">
+    <div class="container text-center">
+        <div class="section-label">Proceso Simple</div>
+        <h2 class="section-title reveal">Así funciona tu vuelo a crédito</h2>
+        <p class="section-desc reveal">En 4 pasos tienes tu vuelo reservado y pagándolo a tu ritmo.</p>
+        <div class="steps-grid">
+            <div class="step reveal">
+                <div class="step-num">1</div>
+                <h4>Cotiza tu vuelo</h4>
+                <p>Dinos a dónde vas, cuándo y cuántos viajan. Te damos el precio exacto al instante.</p>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">2</div>
+                <h4>Paga tu enganche</h4>
+                <p>El enganche es aproximadamente el 40% del vuelo. Con eso tu vuelo queda apartado al precio del día.</p>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">3</div>
+                <h4>Paga en semanas o quincenas</h4>
+                <p>El resto lo pagas en cómodas parcialidades semanales o quincenales. Tú eliges.</p>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">4</div>
+                <h4>Recibe tus pases y vuela</h4>
+                <p>3 días antes de tu vuelo ya debe estar liquidado. Recibe tus pases de abordar y disfruta.</p>
+            </div>
+        </div>
+
+        <div class="rules-box reveal">
+            <h3>Reglas claras, sin letras chiquitas</h3>
+            <div class="rules-grid">
+                <div class="rule-item">
+                    <div class="rule-num">1</div>
+                    <div>
+                        <h5>Enganche proporcional al vuelo</h5>
+                        <p>El enganche es aproximadamente el 40% del costo del vuelo. Ejemplo: vuelo de $6,000 = enganche de ~$2,500. Vuelo de $3,000 = enganche de ~$1,000.</p>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-num">2</div>
+                    <div>
+                        <h5>Liquidado 3 días antes del vuelo</h5>
+                        <p>Tu vuelo debe estar 100% pagado al menos 3 días antes de la fecha de salida. Es requisito indispensable para emitir tus boletos.</p>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-num">3</div>
+                    <div>
+                        <h5>Pagos en periodos completos</h5>
+                        <p>Si pagas por semana, tu último pago cae un sábado (al menos 3 días antes del vuelo). Si pagas por quincena (1 y 15 de cada mes), el último pago debe cumplir la regla de 3 días.</p>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-num">4</div>
+                    <div>
+                        <h5>Sin intereses &mdash; comisión de servicio incluida</h5>
+                        <p>No cobramos intereses. Como toda agencia de viajes, incluimos una comisión de servicio por la gestión, reservación, atención personalizada 1 a 1, generación de pases de abordar y seguimiento de tu vuelo. Esta comisión ya está incluida y desglosada dentro del financiamiento, sin sorpresas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MODALIDADES -->
+<section id="modalidades">
+    <div class="container text-center">
+        <div class="section-label">Modalidades de Pago</div>
+        <h2 class="section-title reveal">Elige cómo pagar tu vuelo</h2>
+        <p class="section-desc reveal">Tres opciones pensadas para cada tipo de viajero.</p>
+        <div class="modalities-grid">
+            <div class="modality-card reveal">
+                <div class="modality-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+                <h3>Crédito Personal</h3>
+                <p>Para cualquier persona. Aparta tu vuelo con el enganche (~40%) y paga el resto en semanas o quincenas. <strong>Tu vuelo debe estar liquidado 3 días antes de volar.</strong></p>
+                <span class="modality-tag">Para todos</span>
+                <ul class="modality-features">
+                    <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Enganche ~40% del vuelo</li>
+                    <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Pagos semanales o quincenales</li>
+                    <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Liquidado 3 días antes de volar</li>
+                    <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Sin intereses &mdash; comisión de servicio incluida</li>
+                    <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Precio garantizado al apartar</li>
+                </ul>
+            </div>
+            <div class="modality-card reveal">
+                <div class="modality-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+                <h3>Crédito Empresarial</h3>
+                <p><strong>Vuela ahora, paga después.</strong> Línea de crédito hasta $100,000 MXN para empresas establecidas y gobierno. Paga incluso hasta 1 mes después de volar.</p>
+                <span class="modality-tag">Empresas y Gobierno</span>
+                <ul class="modality-features">
+                    <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Vuela ahora, paga después</li>
+                    <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Hasta $100,000 MXN de crédito</li>
+                    <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Hasta 1 mes después del vuelo</li>
+                    <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Facturación CFDI corporativa</li>
+                    <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Ejecutivo de cuenta dedicado</li>
+                </ul>
+            </div>
+            <div class="modality-card reveal">
+                <div class="modality-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+                <h3>Pago de Contado</h3>
+                <p>Compra tu vuelo al instante. Servicio completo: reservación, selección de asientos, pases de abordar y asistencia personalizada.</p>
+                <span class="modality-tag">Precio directo</span>
+                <ul class="modality-features">
+                    <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Confirmación inmediata</li>
+                    <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Pases de abordar incluidos</li>
+                    <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Selección de asientos</li>
+                    <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Asistencia 24/7</li>
+                    <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Cambios y cancelaciones</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SIMULADOR -->
+<section id="simulador">
+    <div class="container">
+        <div class="text-center">
+            <div class="section-label gold">Calculadora de Pagos</div>
+            <h2 class="section-title reveal">Simula tu plan de pagos al instante</h2>
+            <p class="section-desc reveal">Ingresa el costo de tu vuelo y la fecha de salida. Te calculamos todo: enganche, número de pagos y monto por periodo.</p>
+        </div>
+        <div class="simulator-wrapper">
+            <div class="sim-box reveal">
+                <h3>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+                    Datos de tu vuelo
+                </h3>
+                <div class="sim-row">
+                    <div class="sim-field">
+                        <label>Costo total del vuelo (MXN)</label>
+                        <input type="number" id="simCost" placeholder="Ej: 6000" value="6000">
+                    </div>
+                    <div class="sim-field">
+                        <label>Fecha de vuelo</label>
+                        <input type="date" id="simDate">
+                    </div>
+                </div>
+                <div class="sim-row">
+                    <div class="sim-field">
+                        <label>Frecuencia de pago</label>
+                        <select id="simFreq">
+                            <option value="semanal">Semanal (cada sábado)</option>
+                            <option value="quincenal" selected>Quincenal (1 y 15 de cada mes)</option>
+                        </select>
+                    </div>
+                    <div class="sim-field">
+                        <label>Número de pasajeros</label>
+                        <input type="number" id="simPax" value="1" min="1" max="10">
+                    </div>
+                </div>
+                <button class="sim-btn" onclick="simulate()">Calcular Mi Plan de Pagos</button>
+            </div>
+            <div class="sim-result" id="simResult">
+                <h3>Tu plan de pagos detallado</h3>
+                <div id="simResultContent"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROMOCIONES -->
+<section id="promociones">
+    <div class="container">
+        <div class="text-center">
+            <div class="section-label gold">Promociones Activas</div>
+            <h2 class="section-title reveal">Reserva con nosotros y gana premios</h2>
+            <p class="section-desc reveal">Cada vuelo que compras te acerca a increíbles regalos. Todos tus vuelos participan.</p>
+        </div>
+        <div class="promos-grid">
+            <div class="promo-card reveal">
+                <div class="promo-icon">📺</div>
+                <h3>Sorteo de TV Hisense 32"</h3>
+                <p>Por cada vuelo que compres recibes un boleto para el sorteo de una Smart TV Hisense de 32". Tómbola el 31 de marzo. Mientras más vuelos, más boletos y más oportunidades de ganar.</p>
+                <div class="promo-badge">1 boleto por vuelo</div>
+            </div>
+            <div class="promo-card reveal">
+                <div class="promo-icon">🥤</div>
+                <h3>Licuadora Ninja Portátil</h3>
+                <p>Al completar tu 6to vuelo te regalamos una licuadora Ninja portátil. Acumula tus sellos en tu tarjeta de fidelidad con cada vuelo que reserves con nosotros.</p>
+                <div class="promo-badge">Al 6to vuelo</div>
+            </div>
+            <div class="promo-card reveal">
+                <div class="promo-icon">📱</div>
+                <h3>Celular Honor Play 10</h3>
+                <p>Nuestra máxima recompensa: al completar tu 10mo vuelo te llevas un smartphone Honor Play 10 totalmente gratis. Tu fidelidad tiene premio.</p>
+                <div class="promo-badge">Al 10mo vuelo</div>
+            </div>
+        </div>
+
+        <!-- Tarjeta de fidelidad -->
+        <div class="loyalty-section reveal">
+            <div>
+                <h3>Tarjeta de Fidelidad</h3>
+                <p>Cada vuelo que reserves con vuelosacredito.com suma un sello a tu tarjeta. Acumula vuelos y llévate premios increíbles. Todos tus vuelos participan, ya sean a crédito o de contado.</p>
+                <div class="loyalty-legend">
+                    <div class="loyalty-legend-item"><div class="dot" style="background:var(--accent)"></div> Vuelo 6: Licuadora Ninja Portátil gratis</div>
+                    <div class="loyalty-legend-item"><div class="dot" style="background:#8b5cf6"></div> Vuelo 10: Celular Honor Play 10 gratis</div>
+                    <div class="loyalty-legend-item"><div class="dot" style="background:var(--sky)"></div> Cada vuelo: 1 boleto para sorteo TV</div>
+                </div>
+            </div>
+            <div class="loyalty-card">
+                <div class="loyalty-stamps">
+                    <div class="stamp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+                    <div class="stamp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+                    <div class="stamp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+                    <div class="stamp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+                    <div class="stamp milestone"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg><span class="milestone-label">🥤 Licuadora</span></div>
+                    <div class="stamp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+                    <div class="stamp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+                    <div class="stamp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+                    <div class="stamp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div>
+                    <div class="stamp milestone"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg><span class="milestone-label">📱 Celular</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- EMPRESAS Y GOBIERNO -->
+<section id="empresas">
+    <div class="container empresas-layout">
+        <div class="empresas-top">
+            <div class="section-label">Empresas y Gobierno</div>
+            <h2 class="section-title reveal">Crédito empresarial para viajes de negocio</h2>
+            <p class="section-desc reveal">Línea de crédito de hasta $100,000 MXN para empresas establecidas y dependencias de gobierno. Vuela primero, paga incluso hasta 1 mes después.</p>
+        </div>
+        <div class="empresas-grid">
+            <div>
+                <div class="empresa-benefits reveal">
+                    <div class="empresa-benefit">
+                        <div class="eb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
+                        <div>
+                            <h4>Línea de crédito revolvente</h4>
+                            <p>Hasta $100,000 MXN pre-aprobados. Se renueva conforme pagas. Sin garantías ni avales.</p>
+                        </div>
+                    </div>
+                    <div class="empresa-benefit">
+                        <div class="eb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+                        <div>
+                            <h4>Vuela ahora, paga después</h4>
+                            <p>Tu equipo vuela cuando lo necesite. Tienes hasta 1 mes después del vuelo para liquidar.</p>
+                        </div>
+                    </div>
+                    <div class="empresa-benefit">
+                        <div class="eb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg></div>
+                        <div>
+                            <h4>Facturación CFDI a la medida</h4>
+                            <p>Facturación corporativa, reportes detallados y conciliación para tu departamento de contabilidad.</p>
+                        </div>
+                    </div>
+                    <div class="empresa-benefit">
+                        <div class="eb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+                        <div>
+                            <h4>Ejecutivo de cuenta dedicado</h4>
+                            <p>Un asesor exclusivo que conoce las necesidades de tu empresa y atiende reservaciones de emergencia.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="empresa-amount reveal">
+                    <p>Línea de crédito hasta</p>
+                    <h2>$100,000 MXN</h2>
+                    <span>Aprobación en 48 horas para empresas establecidas</span>
+                </div>
+            </div>
+
+            <!-- Formulario aplicación empresas -->
+            <div class="empresa-form-box reveal">
+                <h3>Solicita tu línea de crédito empresarial</h3>
+                <p>Completa el formulario y un ejecutivo te contactará en menos de 24 horas.</p>
+                <form onsubmit="handleEmpresa(event)">
+                    <div class="ef-row">
+                        <div class="ef-field"><label>Nombre de la empresa</label><input type="text" required placeholder="Razón social"></div>
+                        <div class="ef-field"><label>RFC</label><input type="text" required placeholder="RFC de la empresa"></div>
+                    </div>
+                    <div class="ef-row">
+                        <div class="ef-field"><label>Nombre del contacto</label><input type="text" required placeholder="Nombre completo"></div>
+                        <div class="ef-field"><label>Cargo</label><input type="text" placeholder="Ej: Director de Operaciones"></div>
+                    </div>
+                    <div class="ef-row">
+                        <div class="ef-field"><label>Teléfono</label><input type="tel" required placeholder="+52 55 ____"></div>
+                        <div class="ef-field"><label>Correo corporativo</label><input type="email" required placeholder="correo@empresa.com"></div>
+                    </div>
+                    <div class="ef-row">
+                        <div class="ef-field">
+                            <label>Tipo de organización</label>
+                            <select>
+                                <option>Empresa privada</option>
+                                <option>Gobierno federal</option>
+                                <option>Gobierno estatal</option>
+                                <option>Gobierno municipal</option>
+                                <option>Organismo descentralizado</option>
+                            </select>
+                        </div>
+                        <div class="ef-field">
+                            <label>Vuelos estimados al mes</label>
+                            <select>
+                                <option>1 a 5 vuelos</option>
+                                <option>6 a 15 vuelos</option>
+                                <option>16 a 30 vuelos</option>
+                                <option>Más de 30 vuelos</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="ef-field full">
+                        <label>Mensaje adicional</label>
+                        <textarea placeholder="Cuéntanos sobre las necesidades de viaje de tu empresa..."></textarea>
+                    </div>
+                    <button type="submit" class="ef-btn">Solicitar Línea de Crédito Empresarial</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+    <div class="container text-center">
+        <div class="section-label">Servicios Incluidos</div>
+        <h2 class="section-title reveal">Todo lo que necesitas para tu viaje</h2>
+        <div class="services-grid">
+            <div class="service-item reveal">
+                <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L2 8.67l7.33 3.33L22 2z"/><path d="M22 2l-8.67 20-3.33-7.33L22 2z"/></svg></div>
+                <h4>Reservación de Vuelos</h4>
+                <p>Las mejores tarifas en Viva Aerobus y Volaris. Nacionales e internacionales.</p>
+            </div>
+            <div class="service-item reveal">
+                <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg></div>
+                <h4>Pases de Abordar</h4>
+                <p>Check-in, selección de asientos y entrega de pases de abordar.</p>
+            </div>
+            <div class="service-item reveal">
+                <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <h4>Cambios y Cancelaciones</h4>
+                <p>Gestión de cambios de itinerario, cancelaciones y reembolsos.</p>
+            </div>
+            <div class="service-item reveal">
+                <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+                <h4>Asistencia 24/7</h4>
+                <p>Soporte por WhatsApp, teléfono y correo en cualquier momento.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+    <h2 class="reveal">Listo para volar sin preocupaciones?</h2>
+    <p class="reveal">Cotiza tu vuelo hoy y recibe tu plan de pagos personalizado en minutos.</p>
+    <a href="#simulador" class="btn btn-primary reveal">Simular Mi Plan de Pagos</a>
+</div>
+
+<!-- CONTACTO -->
+<section id="contacto">
+    <div class="container">
+        <div class="text-center">
+            <div class="section-label">Contacto</div>
+            <h2 class="section-title reveal">Cotiza tu vuelo ahora</h2>
+            <p class="section-desc reveal">Cuéntanos a dónde quieres ir y te armamos tu plan de pagos personalizado.</p>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info reveal">
+                <h3>Estamos para ayudarte</h3>
+                <p>Nuestros asesores encuentran las mejores opciones de vuelo y el plan de pago ideal para ti.</p>
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <div class="cm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+                        <div><h5>Teléfono</h5><p>(55) 1234-5678</p></div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="cm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+                        <div><h5>WhatsApp</h5><p>+52 55 1234 5678</p></div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="cm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg></div>
+                        <div><h5>Correo</h5><p>info@vuelosacredito.com</p></div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="cm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+                        <div><h5>Horario</h5><p>Lun-Sáb 9:00 - 20:00</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form reveal">
+                <form onsubmit="handleContact(event)">
+                    <div class="form-row">
+                        <div class="form-field"><label>Nombre completo</label><input type="text" required placeholder="Tu nombre"></div>
+                        <div class="form-field"><label>Teléfono / WhatsApp</label><input type="tel" required placeholder="+52 55 ____"></div>
+                    </div>
+                    <div class="form-field"><label>Correo electrónico</label><input type="email" required placeholder="tu@correo.com"></div>
+                    <div class="form-row">
+                        <div class="form-field"><label>Origen</label><input type="text" placeholder="Ej: Ciudad de México"></div>
+                        <div class="form-field"><label>Destino</label><input type="text" placeholder="Ej: Cancún"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field"><label>Fecha de ida</label><input type="date"></div>
+                        <div class="form-field"><label>Fecha de regreso</label><input type="date"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>Modalidad</label>
+                            <select><option>Vuelo a crédito</option><option>Pago de contado</option></select>
+                        </div>
+                        <div class="form-field"><label>Pasajeros</label><input type="number" value="1" min="1"></div>
+                    </div>
+                    <div class="form-field"><label>Mensaje</label><textarea placeholder="Cuéntanos más sobre tu viaje..."></textarea></div>
+                    <button type="submit" class="btn btn-primary">Enviar Solicitud de Cotización</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <a href="#" class="logo">
+                <img src="logo.png" alt="Vuelos a Crédito .com" style="height:42px">
+            </a>
+            <p>Tu agencia de viajes con financiamiento inteligente. Vuelos a crédito para todos con servicio personalizado. Aerolíneas: Viva Aerobus y Volaris.</p>
+            <div class="footer-ssl" style="margin-top:1rem">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                Sitio protegido con SSL
+            </div>
+        </div>
+        <div>
+            <h4>Servicios</h4>
+            <ul>
+                <li><a href="#modalidades">Vuelos a crédito</a></li>
+                <li><a href="#empresas">Crédito empresarial</a></li>
+                <li><a href="#servicios">Reservaciones</a></li>
+                <li><a href="#simulador">Simulador de pagos</a></li>
+                <li><a href="#promociones">Promociones</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Legal</h4>
+            <ul>
+                <li><a href="#">Términos y condiciones</a></li>
+                <li><a href="#">Aviso de privacidad</a></li>
+                <li><a href="#">Política de cancelación</a></li>
+                <li><a href="#">Preguntas frecuentes</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Contacto</h4>
+            <ul>
+                <li><a href="tel:+525512345678">(55) 1234-5678</a></li>
+                <li><a href="#">WhatsApp</a></li>
+                <li><a href="mailto:info@vuelosacredito.com">info@vuelosacredito.com</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 vuelosacredito.com — Todos los derechos reservados.</p>
+        <div class="footer-social">
+            <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><path d="M17.5 6.5h.01"/></svg></a>
+            <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.46V13a8.26 8.26 0 005.58 2.17V11.7a4.83 4.83 0 01-3.77-1.24V6.69h3.77z"/></svg></a>
+        </div>
+    </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/5215512345678?text=Hola%2C%20me%20interesa%20cotizar%20un%20vuelo%20a%20cr%C3%A9dito" target="_blank" class="wa-float" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+// Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
+
+// Hamburger
+document.getElementById('hamburger').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('active'));
+document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('active')));
+
+// Particles
+const particlesEl = document.getElementById('particles');
+for (let i = 0; i < 15; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 5 + 2;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (Math.random() * 15 + 10) + 's';
+    p.style.animationDelay = (Math.random() * 10) + 's';
+    particlesEl.appendChild(p);
+}
+
+// Reveal on scroll
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+            setTimeout(() => entry.target.classList.add('visible'), i * 80);
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Set default date (2 months from now)
+const defaultDate = new Date();
+defaultDate.setMonth(defaultDate.getMonth() + 2);
+const dateStr = defaultDate.toISOString().split('T')[0];
+document.getElementById('simDate').value = dateStr;
+document.getElementById('hDate').value = dateStr;
+
+// ── CALCULATOR ENGINE ──
+function calcEnganche(cost) {
+    // ~40% del vuelo, redondeado a centenas
+    return Math.round((cost * 0.4) / 100) * 100;
+}
+
+function getLastPaymentDate(flightDate, freq) {
+    // Fecha límite: 3 días antes del vuelo
+    const cutoff = new Date(flightDate);
+    cutoff.setDate(cutoff.getDate() - 3);
+
+    if (freq === 'semanal') {
+        // Último sábado antes o en la fecha de corte
+        const day = cutoff.getDay(); // 0=dom,1=lun,...6=sab
+        const diff = day === 6 ? 0 : (day === 0 ? -1 : -(day + 1));
+        // Actually: we need the last Saturday <= cutoff
+        const lastSat = new Date(cutoff);
+        if (day === 6) {
+            // already saturday
+        } else if (day === 0) {
+            lastSat.setDate(lastSat.getDate() - 1);
+        } else {
+            lastSat.setDate(lastSat.getDate() - (day + 1));
+        }
+        return lastSat;
+    } else {
+        // Quincenal: pagos caen 1 y 15 de cada mes
+        // Encontrar el último 1 o 15 que sea <= cutoff
+        const year = cutoff.getFullYear();
+        const month = cutoff.getMonth();
+        const dayOfMonth = cutoff.getDate();
+
+        if (dayOfMonth >= 15) {
+            return new Date(year, month, 15);
+        } else if (dayOfMonth >= 1) {
+            return new Date(year, month, 1);
+        } else {
+            // Edge case: go to previous month's 15th
+            return new Date(year, month - 1, 15);
+        }
+    }
+}
+
+function getPaymentDates(startDate, lastPayDate, freq) {
+    const dates = [];
+    let current = new Date(startDate);
+
+    if (freq === 'semanal') {
+        // Primer sábado después del inicio
+        const day = current.getDay();
+        if (day !== 6) {
+            current.setDate(current.getDate() + (6 - day));
+        }
+        while (current <= lastPayDate) {
+            dates.push(new Date(current));
+            current.setDate(current.getDate() + 7);
+        }
+    } else {
+        // Quincenal: 1 y 15 de cada mes
+        // Encontrar el próximo 1 o 15
+        let d = current.getDate();
+        let m = current.getMonth();
+        let y = current.getFullYear();
+
+        if (d <= 1) {
+            current = new Date(y, m, 1);
+        } else if (d <= 15) {
+            current = new Date(y, m, 15);
+        } else {
+            // Next month 1st
+            current = new Date(y, m + 1, 1);
+        }
+
+        while (current <= lastPayDate) {
+            dates.push(new Date(current));
+            if (current.getDate() === 1) {
+                current = new Date(current.getFullYear(), current.getMonth(), 15);
+            } else {
+                current = new Date(current.getFullYear(), current.getMonth() + 1, 1);
+            }
+        }
+    }
+    return dates;
+}
+
+function formatMXN(n) {
+    return '$' + n.toLocaleString('es-MX', { maximumFractionDigits: 0 });
+}
+
+function formatDate(d) {
+    const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    const days = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+    return days[d.getDay()] + ' ' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+}
+
+function runCalculation(cost, flightDateStr, freq, pax) {
+    const totalCost = cost * pax;
+    const enganche = calcEnganche(totalCost);
+    const remaining = totalCost - enganche;
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    const flightDate = new Date(flightDateStr + 'T00:00:00');
+    if (isNaN(flightDate.getTime())) {
+        return { error: 'Selecciona una fecha de vuelo válida.' };
+    }
+
+    const cutoffDate = new Date(flightDate);
+    cutoffDate.setDate(cutoffDate.getDate() - 3);
+
+    if (cutoffDate <= today) {
+        return { error: 'La fecha de vuelo debe ser al menos 1 semana en el futuro para poder armar un plan de pagos.' };
+    }
+
+    const lastPayDate = getLastPaymentDate(flightDate, freq);
+    if (lastPayDate <= today) {
+        return { error: 'No hay tiempo suficiente para completar pagos ' + (freq === 'semanal' ? 'semanales' : 'quincenales') + ' antes de tu vuelo. Intenta con una fecha más lejana o cambia la frecuencia.' };
+    }
+
+    // Start date: tomorrow
+    const startDate = new Date(today);
+    startDate.setDate(startDate.getDate() + 1);
+
+    const payDates = getPaymentDates(startDate, lastPayDate, freq);
+
+    if (payDates.length === 0) {
+        return { error: 'No hay periodos completos disponibles antes de la fecha límite. Intenta con una fecha de vuelo más lejana o cambia la frecuencia de pago.' };
+    }
+
+    const payPerPeriod = Math.ceil(remaining / payDates.length);
+    const lastPay = remaining - (payPerPeriod * (payDates.length - 1));
+
+    return {
+        totalCost,
+        enganche,
+        remaining,
+        freq,
+        freqLabel: freq === 'semanal' ? 'semana' : 'quincena',
+        freqLabelPlural: freq === 'semanal' ? 'semanas' : 'quincenas',
+        numPayments: payDates.length,
+        payPerPeriod,
+        lastPay,
+        payDates,
+        lastPayDate,
+        cutoffDate,
+        flightDate,
+        pax
+    };
+}
+
+// ── HERO MINI CALC ──
+function heroCalc() {
+    const cost = parseFloat(document.getElementById('hCost').value) || 0;
+    const dateVal = document.getElementById('hDate').value;
+    const freq = document.getElementById('hFreq').value;
+    const result = runCalculation(cost, dateVal, freq, 1);
+    const el = document.getElementById('hResult');
+
+    if (result.error) {
+        el.innerHTML = '<div class="hc-result-row error"><span class="label">Error</span><span class="value">' + result.error + '</span></div>';
+        el.classList.add('active');
+        return;
+    }
+
+    el.innerHTML = `
+        <div class="hc-result-row"><span class="label">Enganche (~40%)</span><span class="value gold">${formatMXN(result.enganche)}</span></div>
+        <div class="hc-result-row"><span class="label">Monto a financiar</span><span class="value">${formatMXN(result.remaining)}</span></div>
+        <div class="hc-result-row"><span class="label">Pagos</span><span class="value">${result.numPayments} ${result.freqLabelPlural}</span></div>
+        <div class="hc-result-row"><span class="label">Pago por ${result.freqLabel}</span><span class="value gold">${formatMXN(result.payPerPeriod)}</span></div>
+        <div class="hc-result-row"><span class="label">Último pago</span><span class="value">${formatDate(result.lastPayDate)}</span></div>
+        <div class="hc-result-row"><span class="label">Fecha de vuelo</span><span class="value">${formatDate(result.flightDate)}</span></div>
+    `;
+    el.classList.add('active');
+}
+
+// ── FULL SIMULATOR ──
+function simulate() {
+    const cost = parseFloat(document.getElementById('simCost').value) || 0;
+    const dateVal = document.getElementById('simDate').value;
+    const freq = document.getElementById('simFreq').value;
+    const pax = parseInt(document.getElementById('simPax').value) || 1;
+    const result = runCalculation(cost, dateVal, freq, pax);
+    const container = document.getElementById('simResultContent');
+    const wrapper = document.getElementById('simResult');
+
+    if (result.error) {
+        container.innerHTML = `<div class="result-note error-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6"/><path d="M9 9l6 6"/></svg>${result.error}</div>`;
+        wrapper.classList.add('active');
+        return;
+    }
+
+    // Build schedule bar
+    const totalSlots = result.numPayments + 1; // +1 for enganche
+    let barHtml = '<div class="schedule-bar">';
+    barHtml += '<div class="schedule-dot enganche" title="Enganche"></div>';
+    for (let i = 0; i < result.numPayments; i++) {
+        barHtml += '<div class="schedule-dot paid" title="Pago ' + (i+1) + '"></div>';
+    }
+    barHtml += '</div>';
+    barHtml += '<div class="schedule-legend"><span class="leg-enganche">Enganche</span><span class="leg-pago">Parcialidades</span></div>';
+
+    // Build payment schedule
+    let scheduleHtml = '<div style="margin-top:1.2rem"><h4 style="font-size:.82rem;font-weight:700;color:var(--primary);margin-bottom:.6rem">Calendario de pagos:</h4>';
+    scheduleHtml += '<div style="font-size:.82rem;color:var(--gray-600);margin-bottom:.4rem">Hoy: Enganche de <strong>' + formatMXN(result.enganche) + '</strong></div>';
+    result.payDates.forEach((d, i) => {
+        const amt = (i === result.payDates.length - 1) ? result.lastPay : result.payPerPeriod;
+        scheduleHtml += '<div style="font-size:.82rem;color:var(--gray-600);padding:2px 0;display:flex;justify-content:space-between"><span>Pago ' + (i+1) + ': ' + formatDate(d) + '</span><strong>' + formatMXN(amt) + '</strong></div>';
+    });
+    scheduleHtml += '</div>';
+
+    container.innerHTML = `
+        <div class="result-header">
+            <p>Pago por ${result.freqLabel}</p>
+            <h2>${formatMXN(result.payPerPeriod)} <small>MXN / ${result.freqLabel}</small></h2>
+        </div>
+        <div class="result-rows">
+            ${pax > 1 ? '<div class="result-row"><span class="rl">Pasajeros</span><span class="rv">' + pax + ' personas</span></div>' : ''}
+            ${pax > 1 ? '<div class="result-row"><span class="rl">Costo por persona</span><span class="rv">' + formatMXN(cost) + '</span></div>' : ''}
+            <div class="result-row"><span class="rl">Costo total del vuelo</span><span class="rv">${formatMXN(result.totalCost)}</span></div>
+            <div class="result-row"><span class="rl">Enganche (~40%)</span><span class="rv accent">${formatMXN(result.enganche)}</span></div>
+            <div class="result-row"><span class="rl">Monto a financiar</span><span class="rv">${formatMXN(result.remaining)}</span></div>
+            <div class="result-row"><span class="rl">Número de pagos</span><span class="rv">${result.numPayments} ${result.freqLabelPlural}</span></div>
+            <div class="result-row"><span class="rl">Último pago</span><span class="rv">${formatDate(result.lastPayDate)}</span></div>
+            <div class="result-row"><span class="rl">Fecha límite (3 días antes)</span><span class="rv green">${formatDate(result.cutoffDate)}</span></div>
+            <div class="result-row"><span class="rl">Fecha de vuelo</span><span class="rv">${formatDate(result.flightDate)}</span></div>
+        </div>
+        <div class="result-schedule">${barHtml}</div>
+        ${scheduleHtml}
+        <div class="result-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Sin intereses. Incluye comisión de servicio por gestión, reservación, atención personalizada y pases de abordar, ya desglosada en tu plan de pagos.
+        </div>
+    `;
+    wrapper.classList.add('active');
+}
+
+// ── FORMS ──
+function handleContact(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.textContent = 'Enviado! Te contactaremos pronto';
+    btn.style.background = '#16a34a';
+    btn.style.color = '#fff';
+    setTimeout(() => { btn.textContent = 'Enviar Solicitud de Cotización'; btn.style.background = ''; btn.style.color = ''; }, 3000);
+}
+function handleEmpresa(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.textContent = 'Solicitud enviada! Te contactaremos en 24hrs';
+    btn.style.background = '#16a34a';
+    setTimeout(() => { btn.textContent = 'Solicitar Línea de Crédito Empresarial'; btn.style.background = ''; }, 3000);
+}
+</script>
+</body>
+</html>
