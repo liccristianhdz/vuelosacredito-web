@@ -69,7 +69,7 @@
         .airline-logos{display:flex;gap:1.5rem;align-items:center}
         .airline-logo{background:rgba(255,255,255,.1);padding:8px 16px;border-radius:8px;color:rgba(255,255,255,.7);font-weight:700;font-size:.85rem;backdrop-filter:blur(10px)}
 
-        /* Hero Visual - Simulador rápido */
+        /* Hero Simulator */
         .hero-visual{position:relative;display:flex;justify-content:center;align-items:center}
         .hero-card{background:rgba(255,255,255,.06);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:2.5rem;width:100%;max-width:460px}
         .hero-card-title{color:var(--white);font-size:1rem;font-weight:700;margin-bottom:1.5rem;display:flex;align-items:center;gap:8px}
@@ -83,16 +83,50 @@
         .hc-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
         .hc-btn{width:100%;padding:14px;background:var(--gradient-gold);border:none;border-radius:10px;font-size:.95rem;font-weight:700;color:var(--primary);cursor:pointer;font-family:inherit;transition:all .3s;margin-top:.5rem}
         .hc-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,160,41,.4)}
-        .hc-result{margin-top:1.2rem;padding:1.2rem;background:rgba(255,255,255,.06);border-radius:12px;display:none}
-        .hc-result.active{display:block;animation:fadeUp .4s ease}
         @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-        .hc-result-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88rem}
-        .hc-result-row:last-child{border:none}
-        .hc-result-row .label{color:rgba(255,255,255,.5)}
-        .hc-result-row .value{color:var(--white);font-weight:700}
-        .hc-result-row .value.gold{color:var(--accent);font-size:1.1rem}
-        .hc-result-row.warn .value{color:#fbbf24;font-size:.8rem;font-weight:500}
-        .hc-result-row.error .value{color:#f87171;font-size:.8rem;font-weight:500}
+
+        /* Modal */
+        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);z-index:2000;display:none;align-items:center;justify-content:center;padding:1.5rem}
+        .modal-overlay.active{display:flex;animation:fadeUp .3s ease}
+        .modal{background:var(--white);border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative}
+        .modal-header{background:var(--primary);padding:2rem 2rem 1.5rem;border-radius:20px 20px 0 0;text-align:center}
+        .modal-header h3{color:var(--white);font-size:1.2rem;margin-bottom:.3rem}
+        .modal-header p{color:rgba(255,255,255,.6);font-size:.85rem}
+        .modal-close{position:absolute;top:1rem;right:1rem;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1);border:none;color:var(--white);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .3s}
+        .modal-close:hover{background:rgba(255,255,255,.2)}
+        .modal-body{padding:2rem}
+        .modal-body .mf{margin-bottom:1rem}
+        .modal-body .mf label{display:block;font-size:.8rem;font-weight:600;color:var(--gray-600);margin-bottom:5px}
+        .modal-body .mf input{width:100%;padding:13px 14px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-size:.95rem;font-family:inherit;color:var(--gray-800);transition:border-color .3s}
+        .modal-body .mf input:focus{outline:none;border-color:var(--sky)}
+        .modal-body .mf input::placeholder{color:var(--gray-400)}
+        .modal-submit{width:100%;padding:15px;background:var(--gradient-gold);border:none;border-radius:var(--radius-sm);font-size:1rem;font-weight:700;color:var(--primary);cursor:pointer;font-family:inherit;transition:all .3s;margin-top:.5rem}
+        .modal-submit:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,160,41,.4)}
+        .modal-privacy{text-align:center;margin-top:.8rem;font-size:.72rem;color:var(--gray-400)}
+        /* Modal result */
+        .modal-result .modal-header{background:var(--success)}
+        .modal-result-body{padding:2rem}
+        .mr-payment{text-align:center;padding:1.5rem;background:var(--primary);border-radius:14px;margin-bottom:1.5rem}
+        .mr-payment p{color:rgba(255,255,255,.5);font-size:.78rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+        .mr-payment h2{color:var(--accent);font-size:2.2rem;font-weight:900}
+        .mr-payment h2 small{font-size:.82rem;font-weight:500;color:rgba(255,255,255,.5)}
+        .mr-rows{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1.2rem}
+        .mr-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--gray-100);font-size:.88rem}
+        .mr-row:last-child{border:none}
+        .mr-row .rl{color:var(--gray-600)}
+        .mr-row .rv{font-weight:700;color:var(--gray-800)}
+        .mr-row .rv.accent{color:var(--accent)}
+        .mr-row .rv.green{color:var(--success)}
+        .mr-schedule{margin-bottom:1.2rem}
+        .mr-schedule h4{font-size:.82rem;font-weight:700;color:var(--primary);margin-bottom:.6rem}
+        .mr-schedule-item{font-size:.82rem;color:var(--gray-600);padding:3px 0;display:flex;justify-content:space-between}
+        .mr-note{padding:1rem;background:var(--accent-light);border-radius:10px;font-size:.82rem;color:var(--accent-hover);line-height:1.5}
+        .mr-cta{display:flex;gap:.8rem;margin-top:1.5rem}
+        .mr-cta a,.mr-cta button{flex:1;padding:13px;border-radius:var(--radius-sm);font-size:.88rem;font-weight:700;text-align:center;text-decoration:none;cursor:pointer;font-family:inherit;transition:all .3s;border:none}
+        .mr-cta .mr-wa{background:#25d366;color:#fff}
+        .mr-cta .mr-wa:hover{background:#1da851}
+        .mr-cta .mr-close-btn{background:var(--gray-100);color:var(--gray-800)}
+        .mr-cta .mr-close-btn:hover{background:var(--gray-200)}
 
         /* SECTIONS */
         section{padding:90px 2rem}
@@ -147,51 +181,7 @@
         .rule-item h5{font-size:.9rem;font-weight:700;margin-bottom:3px}
         .rule-item p{font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.5}
 
-        /* SIMULADOR */
-        #simulador{background:var(--gray-50)}
-        .simulator-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:3rem;align-items:start}
-        .sim-box{background:var(--white);border-radius:var(--radius);padding:2.5rem;box-shadow:var(--shadow-lg);border:1px solid var(--gray-200)}
-        .sim-box h3{font-size:1.15rem;font-weight:700;color:var(--primary);margin-bottom:1.5rem;display:flex;align-items:center;gap:8px}
-        .sim-box h3 svg{color:var(--accent)}
-        .sim-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
-        .sim-field{margin-bottom:0}
-        .sim-field.full{grid-column:1/-1}
-        .sim-field label{display:block;font-size:.78rem;font-weight:600;color:var(--gray-600);margin-bottom:5px;text-transform:uppercase;letter-spacing:.3px}
-        .sim-field input,.sim-field select{width:100%;padding:13px 14px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-size:.95rem;font-family:inherit;color:var(--gray-800);transition:border-color .3s;background:var(--white)}
-        .sim-field input:focus,.sim-field select:focus{outline:none;border-color:var(--sky)}
-        .sim-btn{width:100%;padding:15px;background:var(--gradient-gold);border:none;border-radius:var(--radius-sm);font-size:.95rem;font-weight:700;color:var(--primary);cursor:pointer;font-family:inherit;transition:all .3s;margin-top:.5rem}
-        .sim-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,160,41,.4)}
-
-        /* Resultado simulador */
-        .sim-result{background:var(--white);border-radius:var(--radius);padding:2.5rem;box-shadow:var(--shadow-lg);border:1px solid var(--gray-200);display:none}
-        .sim-result.active{display:block;animation:fadeUp .4s ease}
-        .sim-result h3{font-size:1.15rem;font-weight:700;color:var(--primary);margin-bottom:1.5rem}
-        .result-header{background:var(--primary);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;text-align:center}
-        .result-header p{color:rgba(255,255,255,.5);font-size:.78rem;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px}
-        .result-header h2{color:var(--accent);font-size:2.2rem;font-weight:900}
-        .result-header h2 small{font-size:.85rem;font-weight:500;color:rgba(255,255,255,.5)}
-        .result-rows{display:flex;flex-direction:column;gap:.6rem}
-        .result-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--gray-100)}
-        .result-row:last-child{border:none}
-        .result-row .rl{font-size:.88rem;color:var(--gray-600)}
-        .result-row .rv{font-size:.95rem;font-weight:700;color:var(--gray-800)}
-        .result-row .rv.accent{color:var(--accent)}
-        .result-row .rv.green{color:var(--success)}
-        .result-note{margin-top:1.2rem;padding:1rem;background:var(--accent-light);border-radius:10px;font-size:.82rem;color:var(--accent-hover);line-height:1.5;display:flex;align-items:flex-start;gap:8px}
-        .result-note svg{width:18px;height:18px;flex-shrink:0;margin-top:1px}
-        .result-note.error-note{background:#fef2f2;color:var(--danger)}
-        .result-schedule{margin-top:1.2rem}
-        .result-schedule h4{font-size:.85rem;font-weight:700;color:var(--primary);margin-bottom:.8rem;text-transform:uppercase;letter-spacing:.5px}
-        .schedule-bar{display:flex;gap:4px;margin-bottom:.5rem}
-        .schedule-dot{flex:1;height:8px;border-radius:4px;background:var(--gray-200)}
-        .schedule-dot.paid{background:var(--success)}
-        .schedule-dot.enganche{background:var(--accent)}
-        .schedule-legend{display:flex;gap:1.2rem;margin-top:.5rem}
-        .schedule-legend span{font-size:.72rem;color:var(--gray-400);display:flex;align-items:center;gap:4px}
-        .schedule-legend span::before{content:'';width:8px;height:8px;border-radius:50%}
-        .schedule-legend .leg-enganche::before{background:var(--accent)}
-        .schedule-legend .leg-pago::before{background:var(--success)}
-        .schedule-legend .leg-pending::before{background:var(--gray-200)}
+        /* (Simulator is now in hero card + modals) */
 
         /* PROMOS */
         #promociones{background:var(--white)}
@@ -326,7 +316,7 @@
             .steps-grid{grid-template-columns:repeat(2,1fr)}
             .steps-grid::before{display:none}
             .services-grid{grid-template-columns:repeat(2,1fr)}
-            .empresas-grid,.simulator-wrapper,.loyalty-section{grid-template-columns:1fr}
+            .empresas-grid,.loyalty-section{grid-template-columns:1fr}
             .footer-grid{grid-template-columns:repeat(2,1fr)}
             .rules-grid{grid-template-columns:1fr}
         }
@@ -342,7 +332,7 @@
             .nav-links.active{display:flex;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:rgba(10,22,40,.98);padding:1.5rem;gap:1.2rem;backdrop-filter:blur(20px)}
             .steps-grid,.services-grid,.promos-grid{grid-template-columns:1fr}
             .contact-grid{grid-template-columns:1fr}
-            .sim-row,.hc-row,.ef-row,.contact-form .form-row{grid-template-columns:1fr}
+            .hc-row,.ef-row,.contact-form .form-row{grid-template-columns:1fr}
             .footer-grid{grid-template-columns:1fr}
             .footer-bottom{flex-direction:column;gap:1rem;text-align:center}
             .loyalty-stamps{grid-template-columns:repeat(5,1fr)}
@@ -364,11 +354,11 @@
         <ul class="nav-links" id="navLinks">
             <li><a href="#como-funciona">Proceso</a></li>
             <li><a href="#modalidades">Modalidades</a></li>
-            <li><a href="#simulador">Simulador</a></li>
+            <li><a href="#hero-sim">Simulador</a></li>
             <li><a href="#promociones">Promociones</a></li>
             <li><a href="#empresas">Empresas</a></li>
             <li><a href="#contacto">Contacto</a></li>
-            <li><a href="#simulador" class="nav-cta">Cotizar Vuelo</a></li>
+            <li><a href="#hero-sim" class="nav-cta">Cotizar Vuelo</a></li>
         </ul>
         <button class="hamburger" id="hamburger" aria-label="Menu">
             <span></span><span></span><span></span>
@@ -388,7 +378,7 @@
             <h1>Vuela ahora,<br><em>paga a tu ritmo</em></h1>
             <p class="hero-sub">Aparta tu vuelo con anticipación y págalo en cómodas semanas o quincenas antes de volar. Para empresas y gobierno: crédito de hasta $100,000 MXN, vuela ahora y paga después.</p>
             <div class="hero-buttons">
-                <a href="#simulador" class="btn btn-primary">
+                <a href="#hero-sim" class="btn btn-primary">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
                     Simular Mi Plan de Pagos
                 </a>
@@ -412,16 +402,16 @@
             </div>
         </div>
 
-        <!-- Mini simulador hero -->
-        <div class="hero-visual">
+        <!-- Simulador hero -->
+        <div class="hero-visual" id="hero-sim">
             <div class="hero-card">
                 <div class="hero-card-title">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
-                    Cotiza tu vuelo en segundos
+                    Simula tu plan de pagos
                 </div>
                 <div class="hc-row">
                     <div class="hc-field">
-                        <label>Costo del vuelo</label>
+                        <label>Costo del vuelo (MXN)</label>
                         <input type="number" id="hCost" placeholder="Ej: 6000" value="6000">
                     </div>
                     <div class="hc-field">
@@ -429,15 +419,21 @@
                         <input type="date" id="hDate">
                     </div>
                 </div>
-                <div class="hc-field">
-                    <label>Frecuencia de pago</label>
-                    <select id="hFreq">
-                        <option value="semanal">Semanal</option>
-                        <option value="quincenal" selected>Quincenal</option>
-                    </select>
+                <div class="hc-row">
+                    <div class="hc-field">
+                        <label>Frecuencia de pago</label>
+                        <select id="hFreq">
+                            <option value="semanal">Semanal (cada sábado)</option>
+                            <option value="quincenal" selected>Quincenal (1 y 15)</option>
+                        </select>
+                    </div>
+                    <div class="hc-field">
+                        <label>Pasajeros</label>
+                        <input type="number" id="hPax" value="1" min="1" max="10">
+                    </div>
                 </div>
-                <button class="hc-btn" onclick="heroCalc()">Calcular Plan de Pagos</button>
-                <div class="hc-result" id="hResult"></div>
+                <button class="hc-btn" onclick="heroCalc()">Calcular Mi Plan de Pagos</button>
+                <p id="hError" style="color:#ff6b6b;font-size:.82rem;margin-top:.5rem;display:none"></p>
             </div>
         </div>
     </div>
@@ -553,53 +549,6 @@
                     <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Asistencia 24/7</li>
                     <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Cambios y cancelaciones</li>
                 </ul>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- SIMULADOR -->
-<section id="simulador">
-    <div class="container">
-        <div class="text-center">
-            <div class="section-label gold">Calculadora de Pagos</div>
-            <h2 class="section-title reveal">Simula tu plan de pagos al instante</h2>
-            <p class="section-desc reveal">Ingresa el costo de tu vuelo y la fecha de salida. Te calculamos todo: enganche, número de pagos y monto por periodo.</p>
-        </div>
-        <div class="simulator-wrapper">
-            <div class="sim-box reveal">
-                <h3>
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
-                    Datos de tu vuelo
-                </h3>
-                <div class="sim-row">
-                    <div class="sim-field">
-                        <label>Costo total del vuelo (MXN)</label>
-                        <input type="number" id="simCost" placeholder="Ej: 6000" value="6000">
-                    </div>
-                    <div class="sim-field">
-                        <label>Fecha de vuelo</label>
-                        <input type="date" id="simDate">
-                    </div>
-                </div>
-                <div class="sim-row">
-                    <div class="sim-field">
-                        <label>Frecuencia de pago</label>
-                        <select id="simFreq">
-                            <option value="semanal">Semanal (cada sábado)</option>
-                            <option value="quincenal" selected>Quincenal (1 y 15 de cada mes)</option>
-                        </select>
-                    </div>
-                    <div class="sim-field">
-                        <label>Número de pasajeros</label>
-                        <input type="number" id="simPax" value="1" min="1" max="10">
-                    </div>
-                </div>
-                <button class="sim-btn" onclick="simulate()">Calcular Mi Plan de Pagos</button>
-            </div>
-            <div class="sim-result" id="simResult">
-                <h3>Tu plan de pagos detallado</h3>
-                <div id="simResultContent"></div>
             </div>
         </div>
     </div>
@@ -793,7 +742,7 @@
 <div class="cta-section">
     <h2 class="reveal">Listo para volar sin preocupaciones?</h2>
     <p class="reveal">Cotiza tu vuelo hoy y recibe tu plan de pagos personalizado en minutos.</p>
-    <a href="#simulador" class="btn btn-primary reveal">Simular Mi Plan de Pagos</a>
+    <a href="#hero-sim" class="btn btn-primary reveal">Simular Mi Plan de Pagos</a>
 </div>
 
 <!-- CONTACTO -->
@@ -872,7 +821,7 @@
                 <li><a href="#modalidades">Vuelos a crédito</a></li>
                 <li><a href="#empresas">Crédito empresarial</a></li>
                 <li><a href="#servicios">Reservaciones</a></li>
-                <li><a href="#simulador">Simulador de pagos</a></li>
+                <li><a href="#hero-sim">Simulador de pagos</a></li>
                 <li><a href="#promociones">Promociones</a></li>
             </ul>
         </div>
@@ -908,6 +857,45 @@
 <a href="https://wa.me/5215512345678?text=Hola%2C%20me%20interesa%20cotizar%20un%20vuelo%20a%20cr%C3%A9dito" target="_blank" class="wa-float" aria-label="WhatsApp">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
+
+<!-- MODAL: Captura de datos -->
+<div class="modal-overlay" id="leadModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Ver tu plan de pagos completo</h3>
+            <p>Ingresa tus datos para recibir tu tabla de amortización</p>
+            <button class="modal-close" onclick="closeModals()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="mf">
+                <label>Nombre completo</label>
+                <input type="text" id="leadName" placeholder="Tu nombre completo" required>
+            </div>
+            <div class="mf">
+                <label>Teléfono / WhatsApp</label>
+                <input type="tel" id="leadPhone" placeholder="+52 55 1234 5678" required>
+            </div>
+            <div class="mf">
+                <label>Correo electrónico</label>
+                <input type="email" id="leadEmail" placeholder="tu@correo.com" required>
+            </div>
+            <button class="modal-submit" onclick="submitLead()">Ver Mi Plan de Pagos</button>
+            <p class="modal-privacy">Tus datos están protegidos. No compartimos tu información con terceros.</p>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL: Resultado / Amortización -->
+<div class="modal-overlay" id="resultModal">
+    <div class="modal modal-result" style="max-width:560px">
+        <div class="modal-header">
+            <h3>Tu plan de pagos personalizado</h3>
+            <p id="rmLeadName"></p>
+            <button class="modal-close" onclick="closeModals()">&times;</button>
+        </div>
+        <div class="modal-result-body" id="resultModalBody"></div>
+    </div>
+</div>
 
 <script>
 // Nav scroll
@@ -946,9 +934,7 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 // Set default date (2 months from now)
 const defaultDate = new Date();
 defaultDate.setMonth(defaultDate.getMonth() + 2);
-const dateStr = defaultDate.toISOString().split('T')[0];
-document.getElementById('simDate').value = dateStr;
-document.getElementById('hDate').value = dateStr;
+document.getElementById('hDate').value = defaultDate.toISOString().split('T')[0];
 
 // ── CALCULATOR ENGINE ──
 function calcEnganche(cost) {
@@ -1100,90 +1086,88 @@ function runCalculation(cost, flightDateStr, freq, pax) {
     };
 }
 
-// ── HERO MINI CALC ──
+// ── MODAL FLOW ──
+let pendingResult = null;
+
+function closeModals() {
+    document.getElementById('leadModal').classList.remove('active');
+    document.getElementById('resultModal').classList.remove('active');
+}
+
+// Close modals on overlay click
+document.getElementById('leadModal').addEventListener('click', function(e) { if (e.target === this) closeModals(); });
+document.getElementById('resultModal').addEventListener('click', function(e) { if (e.target === this) closeModals(); });
+
 function heroCalc() {
     const cost = parseFloat(document.getElementById('hCost').value) || 0;
     const dateVal = document.getElementById('hDate').value;
     const freq = document.getElementById('hFreq').value;
-    const result = runCalculation(cost, dateVal, freq, 1);
-    const el = document.getElementById('hResult');
+    const pax = parseInt(document.getElementById('hPax').value) || 1;
+    const errEl = document.getElementById('hError');
 
-    if (result.error) {
-        el.innerHTML = '<div class="hc-result-row error"><span class="label">Error</span><span class="value">' + result.error + '</span></div>';
-        el.classList.add('active');
-        return;
-    }
+    if (cost < 500) { errEl.textContent = 'Ingresa un costo de vuelo válido (mínimo $500).'; errEl.style.display = 'block'; return; }
+    if (!dateVal) { errEl.textContent = 'Selecciona la fecha de tu vuelo.'; errEl.style.display = 'block'; return; }
 
-    el.innerHTML = `
-        <div class="hc-result-row"><span class="label">Enganche (~40%)</span><span class="value gold">${formatMXN(result.enganche)}</span></div>
-        <div class="hc-result-row"><span class="label">Monto a financiar</span><span class="value">${formatMXN(result.remaining)}</span></div>
-        <div class="hc-result-row"><span class="label">Pagos</span><span class="value">${result.numPayments} ${result.freqLabelPlural}</span></div>
-        <div class="hc-result-row"><span class="label">Pago por ${result.freqLabel}</span><span class="value gold">${formatMXN(result.payPerPeriod)}</span></div>
-        <div class="hc-result-row"><span class="label">Último pago</span><span class="value">${formatDate(result.lastPayDate)}</span></div>
-        <div class="hc-result-row"><span class="label">Fecha de vuelo</span><span class="value">${formatDate(result.flightDate)}</span></div>
-    `;
-    el.classList.add('active');
+    const result = runCalculation(cost, dateVal, freq, pax);
+    if (result.error) { errEl.textContent = result.error; errEl.style.display = 'block'; return; }
+
+    errEl.style.display = 'none';
+    pendingResult = result;
+    pendingResult.costPerPax = cost;
+    document.getElementById('leadModal').classList.add('active');
 }
 
-// ── FULL SIMULATOR ──
-function simulate() {
-    const cost = parseFloat(document.getElementById('simCost').value) || 0;
-    const dateVal = document.getElementById('simDate').value;
-    const freq = document.getElementById('simFreq').value;
-    const pax = parseInt(document.getElementById('simPax').value) || 1;
-    const result = runCalculation(cost, dateVal, freq, pax);
-    const container = document.getElementById('simResultContent');
-    const wrapper = document.getElementById('simResult');
+function submitLead() {
+    const name = document.getElementById('leadName').value.trim();
+    const phone = document.getElementById('leadPhone').value.trim();
+    const email = document.getElementById('leadEmail').value.trim();
 
-    if (result.error) {
-        container.innerHTML = `<div class="result-note error-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6"/><path d="M9 9l6 6"/></svg>${result.error}</div>`;
-        wrapper.classList.add('active');
-        return;
-    }
+    if (!name || !phone || !email) { alert('Por favor completa todos los campos.'); return; }
 
-    // Build schedule bar
-    const totalSlots = result.numPayments + 1; // +1 for enganche
-    let barHtml = '<div class="schedule-bar">';
-    barHtml += '<div class="schedule-dot enganche" title="Enganche"></div>';
-    for (let i = 0; i < result.numPayments; i++) {
-        barHtml += '<div class="schedule-dot paid" title="Pago ' + (i+1) + '"></div>';
-    }
-    barHtml += '</div>';
-    barHtml += '<div class="schedule-legend"><span class="leg-enganche">Enganche</span><span class="leg-pago">Parcialidades</span></div>';
+    // Close lead modal, show result
+    document.getElementById('leadModal').classList.remove('active');
+    showResultModal(pendingResult, name);
+}
 
-    // Build payment schedule
-    let scheduleHtml = '<div style="margin-top:1.2rem"><h4 style="font-size:.82rem;font-weight:700;color:var(--primary);margin-bottom:.6rem">Calendario de pagos:</h4>';
-    scheduleHtml += '<div style="font-size:.82rem;color:var(--gray-600);margin-bottom:.4rem">Hoy: Enganche de <strong>' + formatMXN(result.enganche) + '</strong></div>';
-    result.payDates.forEach((d, i) => {
-        const amt = (i === result.payDates.length - 1) ? result.lastPay : result.payPerPeriod;
-        scheduleHtml += '<div style="font-size:.82rem;color:var(--gray-600);padding:2px 0;display:flex;justify-content:space-between"><span>Pago ' + (i+1) + ': ' + formatDate(d) + '</span><strong>' + formatMXN(amt) + '</strong></div>';
+function showResultModal(r, leadName) {
+    document.getElementById('rmLeadName').textContent = leadName;
+    const body = document.getElementById('resultModalBody');
+    const pax = r.pax;
+    const cost = r.costPerPax;
+
+    // Schedule rows
+    let scheduleHtml = '<div class="mr-schedule"><h4>Calendario de pagos</h4>';
+    scheduleHtml += '<div class="mr-schedule-item"><span>Hoy &mdash; Enganche</span><strong>' + formatMXN(r.enganche) + '</strong></div>';
+    r.payDates.forEach((d, i) => {
+        const amt = (i === r.payDates.length - 1) ? r.lastPay : r.payPerPeriod;
+        scheduleHtml += '<div class="mr-schedule-item"><span>Pago ' + (i+1) + ': ' + formatDate(d) + '</span><strong>' + formatMXN(amt) + '</strong></div>';
     });
     scheduleHtml += '</div>';
 
-    container.innerHTML = `
-        <div class="result-header">
-            <p>Pago por ${result.freqLabel}</p>
-            <h2>${formatMXN(result.payPerPeriod)} <small>MXN / ${result.freqLabel}</small></h2>
+    body.innerHTML = `
+        <div class="mr-payment">
+            <p>Pago por ${r.freqLabel}</p>
+            <h2>${formatMXN(r.payPerPeriod)} <small>MXN / ${r.freqLabel}</small></h2>
         </div>
-        <div class="result-rows">
-            ${pax > 1 ? '<div class="result-row"><span class="rl">Pasajeros</span><span class="rv">' + pax + ' personas</span></div>' : ''}
-            ${pax > 1 ? '<div class="result-row"><span class="rl">Costo por persona</span><span class="rv">' + formatMXN(cost) + '</span></div>' : ''}
-            <div class="result-row"><span class="rl">Costo total del vuelo</span><span class="rv">${formatMXN(result.totalCost)}</span></div>
-            <div class="result-row"><span class="rl">Enganche (~40%)</span><span class="rv accent">${formatMXN(result.enganche)}</span></div>
-            <div class="result-row"><span class="rl">Monto a financiar</span><span class="rv">${formatMXN(result.remaining)}</span></div>
-            <div class="result-row"><span class="rl">Número de pagos</span><span class="rv">${result.numPayments} ${result.freqLabelPlural}</span></div>
-            <div class="result-row"><span class="rl">Último pago</span><span class="rv">${formatDate(result.lastPayDate)}</span></div>
-            <div class="result-row"><span class="rl">Fecha límite (3 días antes)</span><span class="rv green">${formatDate(result.cutoffDate)}</span></div>
-            <div class="result-row"><span class="rl">Fecha de vuelo</span><span class="rv">${formatDate(result.flightDate)}</span></div>
+        <div class="mr-rows">
+            ${pax > 1 ? '<div class="mr-row"><span class="rl">Pasajeros</span><span class="rv">' + pax + ' personas</span></div>' : ''}
+            ${pax > 1 ? '<div class="mr-row"><span class="rl">Costo por persona</span><span class="rv">' + formatMXN(cost) + '</span></div>' : ''}
+            <div class="mr-row"><span class="rl">Costo total del vuelo</span><span class="rv">${formatMXN(r.totalCost)}</span></div>
+            <div class="mr-row"><span class="rl">Enganche (~40%)</span><span class="rv accent">${formatMXN(r.enganche)}</span></div>
+            <div class="mr-row"><span class="rl">Monto a financiar</span><span class="rv">${formatMXN(r.remaining)}</span></div>
+            <div class="mr-row"><span class="rl">Número de pagos</span><span class="rv">${r.numPayments} ${r.freqLabelPlural}</span></div>
+            <div class="mr-row"><span class="rl">Último pago</span><span class="rv">${formatDate(r.lastPayDate)}</span></div>
+            <div class="mr-row"><span class="rl">Fecha límite (3 días antes)</span><span class="rv green">${formatDate(r.cutoffDate)}</span></div>
+            <div class="mr-row"><span class="rl">Fecha de vuelo</span><span class="rv">${formatDate(r.flightDate)}</span></div>
         </div>
-        <div class="result-schedule">${barHtml}</div>
         ${scheduleHtml}
-        <div class="result-note">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            Sin intereses. Incluye comisión de servicio por gestión, reservación, atención personalizada y pases de abordar, ya desglosada en tu plan de pagos.
+        <div class="mr-note">Sin intereses. Incluye comisión de servicio por gestión, reservación, atención personalizada y pases de abordar, ya desglosada en tu plan de pagos.</div>
+        <div class="mr-cta">
+            <a href="https://wa.me/5215512345678?text=${encodeURIComponent('Hola, me interesa un vuelo a crédito. Mi plan: ' + formatMXN(r.totalCost) + ' total, enganche ' + formatMXN(r.enganche) + ', ' + r.numPayments + ' pagos de ' + formatMXN(r.payPerPeriod) + ' (' + r.freqLabel + '). Vuelo: ' + formatDate(r.flightDate))}" target="_blank" class="mr-wa">Reservar por WhatsApp</a>
+            <button class="mr-close-btn" onclick="closeModals()">Cerrar</button>
         </div>
     `;
-    wrapper.classList.add('active');
+    document.getElementById('resultModal').classList.add('active');
 }
 
 // ── FORMS ──
