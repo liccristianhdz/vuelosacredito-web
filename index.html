@@ -197,85 +197,217 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
     <style>
+        /* ═══════════════════════════════════════════════
+           DESIGN SYSTEM — CUSTOM PROPERTIES
+           ═══════════════════════════════════════════════ */
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
         :root{
-            --primary:#0a1628;--primary-light:#12243f;--accent:#d4a029;--accent-hover:#c4911f;
-            --accent-light:#fdf6e3;--sky:#3b7dd8;--sky-light:#e8f1fd;--white:#fff;
-            --gray-50:#f7f8fb;--gray-100:#eef0f5;--gray-200:#dde1eb;--gray-400:#97a0b8;
-            --gray-600:#556078;--gray-800:#2b3148;--success:#16a34a;--danger:#dc2626;
-            --gradient-hero:linear-gradient(135deg,#0a1628 0%,#132b54 50%,#1a3f73 100%);
-            --gradient-gold:linear-gradient(135deg,#d4a029 0%,#f0c96e 50%,#d4a029 100%);
+            --primary:#0a1628;
+            --primary-light:#12243f;
+            --primary-mid:#0f1f3d;
+            --accent:#d4a029;
+            --accent-hover:#c4911f;
+            --accent-light:#fdf6e3;
+            --accent-glow:rgba(212,160,41,0.35);
+            --sky:#3b7dd8;
+            --sky-light:#e8f1fd;
+            --white:#fff;
+            --gray-50:#f7f8fb;
+            --gray-100:#eef0f5;
+            --gray-200:#dde1eb;
+            --gray-400:#97a0b8;
+            --gray-600:#556078;
+            --gray-800:#2b3148;
+            --success:#16a34a;
+            --danger:#dc2626;
+            --gradient-hero:linear-gradient(135deg,#060d1a 0%,#0a1628 25%,#132b54 55%,#1a3f73 80%,#0f1f3d 100%);
+            --gradient-gold:linear-gradient(135deg,#c4911f 0%,#d4a029 30%,#f0c96e 60%,#d4a029 100%);
             --gradient-card:linear-gradient(180deg,#fff 0%,#f8f9fc 100%);
-            --shadow-sm:0 1px 3px rgba(10,22,40,0.08);--shadow-md:0 4px 20px rgba(10,22,40,0.1);
-            --shadow-lg:0 8px 40px rgba(10,22,40,0.12);--shadow-xl:0 20px 60px rgba(10,22,40,0.15);
-            --radius:16px;--radius-sm:10px;
+            --shadow-sm:0 1px 3px rgba(10,22,40,0.08);
+            --shadow-md:0 4px 20px rgba(10,22,40,0.1);
+            --shadow-lg:0 8px 40px rgba(10,22,40,0.12);
+            --shadow-xl:0 20px 60px rgba(10,22,40,0.18);
+            --radius:16px;
+            --radius-sm:10px;
+            --radius-lg:24px;
+        }
+        @media(prefers-reduced-motion:reduce){
+            *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
         }
         html{scroll-behavior:smooth}
-        body{font-family:'Inter',-apple-system,sans-serif;color:var(--gray-800);background:var(--white);line-height:1.6;overflow-x:hidden}
+        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--gray-800);background:var(--white);line-height:1.6;overflow-x:hidden}
 
-        /* NAV */
+        /* ═══════════════════════════════════════════════
+           CURSOR GLOW (desktop only)
+           ═══════════════════════════════════════════════ */
+        .cursor-glow{
+            position:fixed;width:300px;height:300px;border-radius:50%;
+            background:radial-gradient(circle,rgba(59,125,216,0.08) 0%,rgba(212,160,41,0.04) 40%,transparent 70%);
+            pointer-events:none;z-index:9999;transform:translate(-50%,-50%);
+            transition:opacity 0.3s;opacity:0;
+        }
+        .cursor-glow.visible{opacity:1}
+
+        /* ═══════════════════════════════════════════════
+           NAVIGATION
+           ═══════════════════════════════════════════════ */
         .nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 2rem;transition:all .4s cubic-bezier(.4,0,.2,1)}
-        .nav.scrolled{background:rgba(10,22,40,.97);backdrop-filter:blur(20px);box-shadow:0 4px 30px rgba(0,0,0,.15)}
-        .nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:72px}
+        .nav.scrolled{background:rgba(10,22,40,.97);backdrop-filter:blur(20px);box-shadow:0 4px 30px rgba(0,0,0,.2)}
+        .nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:76px}
         .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--white);font-weight:800;font-size:1.25rem}
         .logo img{height:48px;width:auto}
         .logo span{color:var(--accent)}
-        .nav-links{display:flex;align-items:center;gap:1.8rem;list-style:none}
-        .nav-links a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .3s}
+        .nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
+        .nav-links a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .3s;position:relative}
+        .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:100%;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.4,0,.2,1)}
+        .nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
         .nav-links a:hover{color:var(--accent)}
-        .nav-cta{background:var(--gradient-gold)!important;color:var(--primary)!important;padding:10px 22px;border-radius:50px;font-weight:700!important;font-size:.82rem!important;transition:transform .3s,box-shadow .3s!important}
+        .nav-cta{background:var(--gradient-gold)!important;color:var(--primary)!important;padding:10px 24px;border-radius:50px;font-weight:700!important;font-size:.82rem!important;transition:transform .3s,box-shadow .3s!important;position:relative;overflow:hidden}
+        .nav-cta::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);transition:left .6s}
+        .nav-cta:hover::before{left:100%}
+        .nav-cta::after{display:none!important}
         .nav-cta:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,160,41,.4)}
         .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:5px}
         .hamburger span{width:26px;height:2.5px;background:var(--white);border-radius:2px;transition:all .3s}
 
-        /* HERO */
-        .hero{background:var(--gradient-hero);min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:100px 2rem 80px}
-        .hero::before{content:'';position:absolute;top:-50%;right:-20%;width:80%;height:200%;background:radial-gradient(ellipse,rgba(59,125,216,.12) 0%,transparent 70%);animation:heroGlow 8s ease-in-out infinite alternate}
-        @keyframes heroGlow{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-5%,5%) scale(1.1)}}
+        /* ═══════════════════════════════════════════════
+           HERO SECTION
+           ═══════════════════════════════════════════════ */
+        .hero{
+            background:var(--gradient-hero);min-height:100vh;display:flex;align-items:center;
+            position:relative;overflow:hidden;padding:110px 2rem 90px;
+        }
+        /* Animated mesh gradient */
+        .hero::before{
+            content:'';position:absolute;inset:0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 80%,rgba(59,125,216,0.15) 0%,transparent 60%),
+                radial-gradient(ellipse 60% 80% at 80% 20%,rgba(212,160,41,0.08) 0%,transparent 60%),
+                radial-gradient(ellipse 50% 50% at 50% 50%,rgba(59,125,216,0.06) 0%,transparent 70%);
+            animation:meshShift 12s ease-in-out infinite alternate;
+        }
+        @keyframes meshShift{
+            0%{transform:scale(1) translate(0,0)}
+            33%{transform:scale(1.05) translate(-2%,3%)}
+            66%{transform:scale(0.98) translate(3%,-2%)}
+            100%{transform:scale(1.08) translate(-3%,2%)}
+        }
+        /* Dot grid overlay */
+        .hero::after{
+            content:'';position:absolute;inset:0;
+            background-image:radial-gradient(rgba(255,255,255,0.04) 1px,transparent 1px);
+            background-size:32px 32px;
+            pointer-events:none;
+        }
+        /* Floating orbs */
+        .hero-orb{
+            position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;
+        }
+        .hero-orb--1{
+            width:400px;height:400px;top:-10%;right:-5%;
+            background:rgba(59,125,216,0.12);
+            animation:orbFloat1 14s ease-in-out infinite alternate;
+        }
+        .hero-orb--2{
+            width:300px;height:300px;bottom:10%;left:-8%;
+            background:rgba(212,160,41,0.1);
+            animation:orbFloat2 18s ease-in-out infinite alternate;
+        }
+        .hero-orb--3{
+            width:200px;height:200px;top:40%;left:30%;
+            background:rgba(139,92,246,0.06);
+            animation:orbFloat3 16s ease-in-out infinite alternate;
+        }
+        .hero-orb--4{
+            width:250px;height:250px;bottom:-5%;right:25%;
+            background:rgba(59,125,216,0.08);
+            animation:orbFloat1 20s ease-in-out infinite alternate-reverse;
+        }
+        @keyframes orbFloat1{0%{transform:translate(0,0)}100%{transform:translate(-40px,30px)}}
+        @keyframes orbFloat2{0%{transform:translate(0,0)}100%{transform:translate(30px,-40px)}}
+        @keyframes orbFloat3{0%{transform:translate(0,0) scale(1)}100%{transform:translate(20px,20px) scale(1.2)}}
+
         .hero-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
         .particle{position:absolute;background:rgba(212,160,41,.2);border-radius:50%;animation:float linear infinite}
         @keyframes float{0%{transform:translateY(100vh) rotate(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-100vh) rotate(720deg);opacity:0}}
-        .hero-content{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;position:relative;z-index:2}
-        .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(212,160,41,.12);border:1px solid rgba(212,160,41,.25);padding:8px 18px;border-radius:50px;color:var(--accent);font-size:.8rem;font-weight:600;margin-bottom:1.5rem;backdrop-filter:blur(10px)}
+        .hero-content{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:1.1fr 0.9fr;gap:4rem;align-items:center;position:relative;z-index:2}
+        .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(212,160,41,.12);border:1px solid rgba(212,160,41,.25);padding:10px 20px;border-radius:50px;color:var(--accent);font-size:.82rem;font-weight:600;margin-bottom:1.8rem;backdrop-filter:blur(10px)}
         .hero-badge svg{width:16px;height:16px}
-        .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,4.5vw,3.6rem);color:var(--white);line-height:1.15;margin-bottom:1.5rem}
+        .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.6rem,5vw,4.2rem);color:var(--white);line-height:1.1;margin-bottom:1.8rem;letter-spacing:-0.02em}
         .hero h1 em{font-style:normal;background:var(--gradient-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-        .hero-sub{color:rgba(255,255,255,.7);font-size:1.1rem;line-height:1.7;margin-bottom:2.5rem;max-width:520px}
+        .hero-sub{color:rgba(255,255,255,.7);font-size:1.15rem;line-height:1.75;margin-bottom:2.8rem;max-width:540px}
         .hero-buttons{display:flex;gap:1rem;flex-wrap:wrap}
-        .btn{display:inline-flex;align-items:center;gap:8px;padding:15px 30px;border-radius:50px;font-weight:700;font-size:.92rem;text-decoration:none;border:none;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);font-family:inherit}
+        .btn{display:inline-flex;align-items:center;gap:8px;padding:16px 32px;border-radius:50px;font-weight:700;font-size:.95rem;text-decoration:none;border:none;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);font-family:inherit;position:relative;overflow:hidden}
         .btn-primary{background:var(--gradient-gold);color:var(--primary);box-shadow:0 4px 20px rgba(212,160,41,.3)}
+        .btn-primary::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);transition:left .6s}
+        .btn-primary:hover::before{left:100%}
         .btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(212,160,41,.5)}
         .btn-outline{background:transparent;color:var(--white);border:2px solid rgba(255,255,255,.25)}
         .btn-outline:hover{border-color:var(--accent);color:var(--accent);background:rgba(212,160,41,.05)}
         .btn-white{background:var(--white);color:var(--primary)}
         .btn-white:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
-        .hero-stats{display:flex;gap:2.5rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.08)}
-        .stat-item h3{font-size:1.8rem;font-weight:800;color:var(--accent)}
-        .stat-item p{font-size:.78rem;color:rgba(255,255,255,.5);margin-top:2px}
+        .hero-stats{display:flex;gap:3rem;margin-top:2.8rem;padding-top:2.2rem;border-top:1px solid rgba(255,255,255,.08)}
+        .stat-item h3{font-size:2rem;font-weight:900;color:var(--accent);font-family:'Playfair Display',serif}
+        .stat-item p{font-size:.8rem;color:rgba(255,255,255,.5);margin-top:4px}
         .hero-airlines{margin-top:2rem;display:flex;align-items:center;gap:1.5rem}
         .hero-airlines span{font-size:.75rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;font-weight:600}
-        .airline-logos{display:flex;gap:1.5rem;align-items:center}
-        .airline-logo{background:rgba(255,255,255,.1);padding:8px 16px;border-radius:8px;color:rgba(255,255,255,.7);font-weight:700;font-size:.85rem;backdrop-filter:blur(10px)}
+        .airline-logos{display:flex;gap:1rem;align-items:center}
+        .airline-logo{background:rgba(255,255,255,.08);padding:8px 18px;border-radius:8px;color:rgba(255,255,255,.7);font-weight:700;font-size:.85rem;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.06);transition:all .3s}
+        .airline-logo:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.12)}
 
-        /* Hero Simulator */
+        /* Hero Simulator — Glassmorphism Card */
         .hero-visual{position:relative;display:flex;justify-content:center;align-items:center}
-        .hero-card{background:rgba(255,255,255,.06);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:2.5rem;width:100%;max-width:460px}
-        .hero-card-title{color:var(--white);font-size:1rem;font-weight:700;margin-bottom:1.5rem;display:flex;align-items:center;gap:8px}
+        .hero-card{
+            background:rgba(255,255,255,.06);
+            backdrop-filter:blur(24px);
+            border:1px solid rgba(255,255,255,.1);
+            border-radius:var(--radius-lg);
+            padding:2.5rem;width:100%;max-width:480px;
+            position:relative;
+            box-shadow:0 8px 32px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.08);
+        }
+        /* Animated gradient border */
+        .hero-card::before{
+            content:'';position:absolute;inset:-1px;border-radius:var(--radius-lg);padding:1px;
+            background:conic-gradient(from 0deg,rgba(212,160,41,0.3),rgba(59,125,216,0.2),rgba(139,92,246,0.15),rgba(212,160,41,0.3));
+            -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite:xor;mask-composite:exclude;
+            animation:borderSpin 8s linear infinite;
+            pointer-events:none;
+        }
+        @keyframes borderSpin{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}
+        .hero-card-title{color:var(--white);font-size:1.05rem;font-weight:700;margin-bottom:1.5rem;display:flex;align-items:center;gap:8px}
         .hero-card-title svg{width:20px;height:20px;color:var(--accent)}
         .hc-field{margin-bottom:1rem}
         .hc-field label{display:block;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
-        .hc-field input,.hc-field select{width:100%;padding:12px 14px;border:1px solid rgba(255,255,255,.15);border-radius:10px;background:rgba(255,255,255,.06);color:var(--white);font-size:.95rem;font-family:inherit;transition:border-color .3s}
-        .hc-field input:focus,.hc-field select:focus{outline:none;border-color:var(--accent)}
+        .hc-field input,.hc-field select{width:100%;padding:13px 14px;border:1px solid rgba(255,255,255,.12);border-radius:var(--radius-sm);background:rgba(255,255,255,.05);color:var(--white);font-size:.95rem;font-family:inherit;transition:all .3s}
+        .hc-field input:focus,.hc-field select:focus{outline:none;border-color:var(--accent);background:rgba(255,255,255,.08);box-shadow:0 0 0 3px rgba(212,160,41,.1)}
         .hc-field select option{background:var(--primary);color:#fff}
         .hc-field input::placeholder{color:rgba(255,255,255,.3)}
         .hc-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
-        .hc-btn{width:100%;padding:14px;background:var(--gradient-gold);border:none;border-radius:10px;font-size:.95rem;font-weight:700;color:var(--primary);cursor:pointer;font-family:inherit;transition:all .3s;margin-top:.5rem}
+        .hc-btn{width:100%;padding:15px;background:var(--gradient-gold);border:none;border-radius:var(--radius-sm);font-size:.95rem;font-weight:700;color:var(--primary);cursor:pointer;font-family:inherit;transition:all .3s;margin-top:.5rem;position:relative;overflow:hidden}
+        .hc-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);transition:left .6s}
+        .hc-btn:hover::before{left:100%}
         .hc-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,160,41,.4)}
-        @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-        /* Modal */
+        /* ═══════════════════════════════════════════════
+           SVG WAVE DIVIDERS
+           ═══════════════════════════════════════════════ */
+        .wave-divider{position:relative;width:100%;line-height:0;overflow:hidden}
+        .wave-divider svg{display:block;width:100%;height:auto}
+        .wave-divider--dark-to-light svg{fill:var(--gray-50)}
+        .wave-divider--light-to-dark svg{fill:var(--primary)}
+        .wave-divider--light-to-white svg{fill:var(--white)}
+        .wave-divider--white-to-light svg{fill:var(--gray-50)}
+        .wave-divider--white-to-dark svg{fill:var(--primary)}
+        .wave-divider--dark-to-white svg{fill:var(--white)}
+
+        /* ═══════════════════════════════════════════════
+           MODAL STYLES
+           ═══════════════════════════════════════════════ */
         .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);z-index:2000;display:none;align-items:center;justify-content:center;padding:1.5rem}
         .modal-overlay.active{display:flex;animation:fadeUp .3s ease}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
         .modal{background:var(--white);border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative}
         .modal-header{background:var(--primary);padding:2rem 2rem 1.5rem;border-radius:20px 20px 0 0;text-align:center}
         .modal-header h3{color:var(--white);font-size:1.2rem;margin-bottom:.3rem}
@@ -288,10 +420,11 @@
         .modal-body .mf input{width:100%;padding:13px 14px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-size:.95rem;font-family:inherit;color:var(--gray-800);transition:border-color .3s}
         .modal-body .mf input:focus{outline:none;border-color:var(--sky)}
         .modal-body .mf input::placeholder{color:var(--gray-400)}
-        .modal-submit{width:100%;padding:15px;background:var(--gradient-gold);border:none;border-radius:var(--radius-sm);font-size:1rem;font-weight:700;color:var(--primary);cursor:pointer;font-family:inherit;transition:all .3s;margin-top:.5rem}
+        .modal-submit{width:100%;padding:15px;background:var(--gradient-gold);border:none;border-radius:var(--radius-sm);font-size:1rem;font-weight:700;color:var(--primary);cursor:pointer;font-family:inherit;transition:all .3s;margin-top:.5rem;position:relative;overflow:hidden}
+        .modal-submit::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);transition:left .6s}
+        .modal-submit:hover::before{left:100%}
         .modal-submit:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,160,41,.4)}
         .modal-privacy{text-align:center;margin-top:.8rem;font-size:.72rem;color:var(--gray-400)}
-        /* Modal result */
         .modal-result .modal-header{background:var(--success)}
         .modal-result-body{padding:2rem}
         .mr-payment{text-align:center;padding:1.5rem;background:var(--primary);border-radius:14px;margin-bottom:1.5rem}
@@ -316,42 +449,107 @@
         .mr-cta .mr-close-btn{background:var(--gray-100);color:var(--gray-800)}
         .mr-cta .mr-close-btn:hover{background:var(--gray-200)}
 
-        /* SECTIONS */
-        section{padding:90px 2rem}
+        /* ═══════════════════════════════════════════════
+           SECTIONS — GLOBAL
+           ═══════════════════════════════════════════════ */
+        section{padding:100px 2rem}
         .container{max-width:1200px;margin:0 auto}
-        .section-label{display:inline-flex;align-items:center;gap:8px;background:var(--sky-light);color:var(--sky);padding:6px 16px;border-radius:50px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem}
+        .section-label{display:inline-flex;align-items:center;gap:8px;background:var(--sky-light);color:var(--sky);padding:6px 18px;border-radius:50px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:1.2rem}
         .section-label.gold{background:var(--accent-light);color:var(--accent-hover)}
-        .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.2vw,2.6rem);color:var(--primary);margin-bottom:1rem;line-height:1.2}
-        .section-desc{color:var(--gray-600);font-size:1.05rem;max-width:620px;line-height:1.7}
+        .section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.5vw,2.8rem);color:var(--primary);margin-bottom:1rem;line-height:1.2;letter-spacing:-0.01em}
+        .section-desc{color:var(--gray-600);font-size:1.08rem;max-width:640px;line-height:1.75}
         .text-center{text-align:center}
         .text-center .section-desc{margin-inline:auto}
 
-        /* COMO FUNCIONA */
-        #como-funciona{background:var(--gray-50)}
-        .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem;position:relative}
-        .steps-grid::before{content:'';position:absolute;top:40px;left:12.5%;right:12.5%;height:2px;background:var(--gray-200)}
-        .step{text-align:center;position:relative}
-        .step-num{width:52px;height:52px;border-radius:50%;background:var(--white);border:3px solid var(--primary);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:var(--primary);margin:0 auto 1.2rem;position:relative;z-index:2;transition:all .3s}
-        .step:hover .step-num{background:var(--primary);color:var(--white);transform:scale(1.1)}
-        .step h4{font-size:.95rem;font-weight:700;color:var(--primary);margin-bottom:.4rem}
-        .step p{font-size:.83rem;color:var(--gray-600);line-height:1.55;padding:0 .5rem}
+        /* ═══════════════════════════════════════════════
+           COMO FUNCIONA
+           ═══════════════════════════════════════════════ */
+        #como-funciona{background:var(--gray-50);position:relative}
+        .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:3.5rem;position:relative}
+        /* Connecting line */
+        .steps-line{position:absolute;top:36px;left:12.5%;right:12.5%;height:3px;background:var(--gray-200);z-index:0}
+        .steps-line-fill{height:100%;width:0;background:var(--gradient-gold);border-radius:3px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+        .step{text-align:center;position:relative;z-index:1}
+        .step-num{
+            width:56px;height:56px;border-radius:50%;background:var(--white);
+            border:3px solid var(--primary);display:flex;align-items:center;justify-content:center;
+            font-weight:800;font-size:1.15rem;color:var(--primary);margin:0 auto 1.4rem;
+            position:relative;z-index:2;transition:all .4s cubic-bezier(.4,0,.2,1);
+        }
+        .step-num::after{
+            content:'';position:absolute;inset:-6px;border-radius:50%;
+            border:2px solid transparent;transition:all .4s;
+        }
+        .step:hover .step-num{
+            background:var(--primary);color:var(--white);transform:scale(1.1);
+            box-shadow:0 0 20px rgba(10,22,40,0.2);
+        }
+        .step:hover .step-num::after{border-color:rgba(212,160,41,0.4)}
+        .step.step-active .step-num{
+            background:var(--primary);color:var(--accent);
+            box-shadow:0 0 0 6px rgba(212,160,41,0.15);
+            animation:stepGlow 2s ease-in-out infinite;
+        }
+        @keyframes stepGlow{0%,100%{box-shadow:0 0 0 6px rgba(212,160,41,0.1)}50%{box-shadow:0 0 0 12px rgba(212,160,41,0.05)}}
+        .step h4{font-size:.98rem;font-weight:700;color:var(--primary);margin-bottom:.5rem}
+        .step p{font-size:.85rem;color:var(--gray-600);line-height:1.6;padding:0 .3rem}
 
-        /* MODALIDADES */
-        .modalities-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
-        .modality-card{background:var(--gradient-card);border-radius:var(--radius);padding:2.2rem 1.8rem;border:1px solid var(--gray-200);transition:all .4s;position:relative;overflow:hidden}
+        /* REGLAS DE CREDITO */
+        .rules-box{margin-top:3rem;background:var(--primary);border-radius:var(--radius-lg);padding:3rem;color:var(--white);position:relative;overflow:hidden}
+        .rules-box::before{
+            content:'';position:absolute;top:0;right:0;width:40%;height:100%;
+            background:radial-gradient(ellipse at right,rgba(212,160,41,0.05) 0%,transparent 70%);
+            pointer-events:none;
+        }
+        .rules-box h3{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:1.8rem;color:var(--accent)}
+        .rules-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem}
+        .rule-item{display:flex;gap:1rem;align-items:flex-start}
+        .rule-num{width:36px;height:36px;border-radius:50%;background:rgba(212,160,41,.15);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent);font-size:.85rem;flex-shrink:0}
+        .rule-item h5{font-size:.9rem;font-weight:700;margin-bottom:3px}
+        .rule-item p{font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.5}
+
+        /* ═══════════════════════════════════════════════
+           MODALIDADES — Cards with animated borders
+           ═══════════════════════════════════════════════ */
+        #modalidades{background:var(--white)}
+        .modalities-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3.5rem}
+        .modality-card{
+            background:var(--gradient-card);border-radius:var(--radius);padding:2.4rem 2rem;
+            border:1px solid var(--gray-200);transition:all .4s cubic-bezier(.4,0,.2,1);
+            position:relative;overflow:hidden;
+        }
         .modality-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:var(--radius) var(--radius) 0 0}
         .modality-card:nth-child(1)::before{background:var(--sky)}
         .modality-card:nth-child(2)::before{background:var(--accent)}
         .modality-card:nth-child(3)::before{background:var(--success)}
-        .modality-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-xl);border-color:transparent}
-        .modality-icon{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem}
+        /* Animated border on hover */
+        .modality-card::after{
+            content:'';position:absolute;inset:-1px;border-radius:var(--radius);padding:1px;
+            background:conic-gradient(from 0deg,transparent 70%,rgba(59,125,216,0.4) 80%,transparent 90%);
+            -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite:xor;mask-composite:exclude;
+            opacity:0;transition:opacity .4s;
+            animation:borderSpin 4s linear infinite;
+        }
+        .modality-card:nth-child(2)::after{
+            background:conic-gradient(from 0deg,transparent 70%,rgba(212,160,41,0.4) 80%,transparent 90%);
+        }
+        .modality-card:nth-child(3)::after{
+            background:conic-gradient(from 0deg,transparent 70%,rgba(22,163,74,0.4) 80%,transparent 90%);
+        }
+        .modality-card:hover::after{opacity:1}
+        .modality-card:hover{
+            transform:translateY(-8px) perspective(600px) rotateX(2deg);
+            box-shadow:var(--shadow-xl);border-color:transparent;
+        }
+        .modality-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1.4rem}
         .modality-card:nth-child(1) .modality-icon{background:var(--sky-light);color:var(--sky)}
         .modality-card:nth-child(2) .modality-icon{background:var(--accent-light);color:var(--accent)}
         .modality-card:nth-child(3) .modality-icon{background:#dcfce7;color:var(--success)}
         .modality-icon svg{width:26px;height:26px}
-        .modality-card h3{font-size:1.15rem;font-weight:700;color:var(--primary);margin-bottom:.6rem}
-        .modality-card>p{color:var(--gray-600);font-size:.88rem;line-height:1.6;margin-bottom:1.2rem}
-        .modality-tag{display:inline-block;padding:4px 12px;border-radius:50px;font-size:.72rem;font-weight:700}
+        .modality-card h3{font-size:1.18rem;font-weight:700;color:var(--primary);margin-bottom:.6rem}
+        .modality-card>p{color:var(--gray-600);font-size:.88rem;line-height:1.65;margin-bottom:1.2rem}
+        .modality-tag{display:inline-block;padding:5px 14px;border-radius:50px;font-size:.72rem;font-weight:700}
         .modality-card:nth-child(1) .modality-tag{background:var(--sky-light);color:var(--sky)}
         .modality-card:nth-child(2) .modality-tag{background:var(--accent-light);color:var(--accent-hover)}
         .modality-card:nth-child(3) .modality-tag{background:#dcfce7;color:#16a34a}
@@ -360,39 +558,45 @@
         .modality-features li svg{width:16px;height:16px;color:var(--success);flex-shrink:0}
         .check-svg{width:16px;height:16px;color:var(--success);flex-shrink:0}
 
-        /* REGLAS DE CRÉDITO */
-        .rules-box{margin-top:2.5rem;background:var(--primary);border-radius:var(--radius);padding:2.5rem;color:var(--white)}
-        .rules-box h3{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:1.5rem;color:var(--accent)}
-        .rules-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem}
-        .rule-item{display:flex;gap:1rem;align-items:flex-start}
-        .rule-num{width:36px;height:36px;border-radius:50%;background:rgba(212,160,41,.15);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent);font-size:.85rem;flex-shrink:0}
-        .rule-item h5{font-size:.9rem;font-weight:700;margin-bottom:3px}
-        .rule-item p{font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.5}
-
-        /* (Simulator is now in hero card + modals) */
-
-        /* PROMOS */
-        #promociones{background:var(--white)}
-        .promos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3rem}
-        .promo-card{background:var(--gradient-card);border-radius:var(--radius);padding:2rem 1.8rem;border:1px solid var(--gray-200);text-align:center;transition:all .3s;position:relative;overflow:hidden}
-        .promo-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
-        .promo-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-        .promo-card:nth-child(1)::after{background:var(--accent)}
-        .promo-card:nth-child(2)::after{background:var(--sky)}
-        .promo-card:nth-child(3)::after{background:#8b5cf6}
-        .promo-icon{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;font-size:1.8rem}
+        /* ═══════════════════════════════════════════════
+           PROMOCIONES
+           ═══════════════════════════════════════════════ */
+        #promociones{background:var(--gray-50)}
+        .promos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3.5rem}
+        .promo-card{
+            background:var(--gradient-card);border-radius:var(--radius);padding:2.2rem 2rem;
+            border:1px solid var(--gray-200);text-align:center;
+            transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;
+        }
+        .promo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+        .promo-card:nth-child(1)::before{background:var(--accent)}
+        .promo-card:nth-child(2)::before{background:var(--sky)}
+        .promo-card:nth-child(3)::before{background:#8b5cf6}
+        /* Animated border on hover */
+        .promo-card::after{
+            content:'';position:absolute;inset:-1px;border-radius:var(--radius);padding:1px;
+            background:conic-gradient(from 0deg,transparent 70%,rgba(212,160,41,0.35) 80%,transparent 90%);
+            -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite:xor;mask-composite:exclude;
+            opacity:0;transition:opacity .4s;animation:borderSpin 4s linear infinite;
+        }
+        .promo-card:hover::after{opacity:1}
+        .promo-card:hover{transform:translateY(-8px) perspective(600px) rotateX(2deg);box-shadow:var(--shadow-xl);border-color:transparent}
+        .promo-icon{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.4rem;font-size:2rem}
         .promo-card:nth-child(1) .promo-icon{background:var(--accent-light)}
         .promo-card:nth-child(2) .promo-icon{background:var(--sky-light)}
         .promo-card:nth-child(3) .promo-icon{background:#ede9fe}
         .promo-card h3{font-size:1.1rem;font-weight:700;color:var(--primary);margin-bottom:.5rem}
-        .promo-card p{font-size:.88rem;color:var(--gray-600);line-height:1.6}
+        .promo-card p{font-size:.88rem;color:var(--gray-600);line-height:1.65}
         .promo-badge{display:inline-block;margin-top:1rem;padding:5px 14px;border-radius:50px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
         .promo-card:nth-child(1) .promo-badge{background:var(--accent-light);color:var(--accent-hover)}
         .promo-card:nth-child(2) .promo-badge{background:var(--sky-light);color:var(--sky)}
         .promo-card:nth-child(3) .promo-badge{background:#ede9fe;color:#7c3aed}
 
-        /* FIDELIDAD INTERACTIVA */
-        .loyalty-section{margin-top:3rem;background:linear-gradient(135deg,#0a1628 0%,#0f1f3d 40%,#162d55 100%);border-radius:var(--radius);padding:0;display:grid;grid-template-columns:1fr 1.3fr;overflow:hidden;position:relative}
+        /* ═══════════════════════════════════════════════
+           LOYALTY — FIDELIDAD (kept premium as-is)
+           ═══════════════════════════════════════════════ */
+        .loyalty-section{margin-top:3.5rem;background:linear-gradient(135deg,#0a1628 0%,#0f1f3d 40%,#162d55 100%);border-radius:var(--radius-lg);padding:0;display:grid;grid-template-columns:1fr 1.3fr;overflow:hidden;position:relative}
         .loyalty-section::before{content:'';position:absolute;top:-30%;right:-10%;width:60%;height:160%;background:radial-gradient(ellipse,rgba(212,160,41,.08) 0%,transparent 70%);pointer-events:none}
         .loyalty-left{padding:3rem;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2}
         .loyalty-section h3{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--white);margin-bottom:.5rem}
@@ -451,9 +655,15 @@
         .lci-prize-popup .pp-close{margin-top:1.2rem;background:var(--gradient-gold);border:none;padding:10px 28px;border-radius:50px;font-weight:700;color:var(--primary);cursor:pointer;font-family:inherit;font-size:.85rem;transition:all .3s}
         .lci-prize-popup .pp-close:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,160,41,.4)}
 
-        /* EMPRESAS */
-        #empresas{background:var(--gradient-hero);color:var(--white);position:relative;overflow:hidden;padding:100px 2rem}
+        /* ═══════════════════════════════════════════════
+           EMPRESAS Y GOBIERNO
+           ═══════════════════════════════════════════════ */
+        #empresas{background:var(--gradient-hero);color:var(--white);position:relative;overflow:hidden;padding:110px 2rem}
         #empresas::before{content:'';position:absolute;top:0;right:0;width:50%;height:100%;background:radial-gradient(ellipse at right,rgba(212,160,41,.06) 0%,transparent 70%)}
+        /* Floating decorative circles */
+        .emp-deco{position:absolute;border-radius:50%;pointer-events:none}
+        .emp-deco--1{width:200px;height:200px;top:10%;left:-5%;background:rgba(59,125,216,0.05);filter:blur(40px);animation:orbFloat1 14s ease-in-out infinite alternate}
+        .emp-deco--2{width:150px;height:150px;bottom:15%;right:5%;background:rgba(212,160,41,0.05);filter:blur(30px);animation:orbFloat2 12s ease-in-out infinite alternate}
         .empresas-layout{position:relative;z-index:2}
         .empresas-top{text-align:center;margin-bottom:4rem}
         #empresas .section-label{background:rgba(212,160,41,.12);color:var(--accent)}
@@ -466,60 +676,153 @@
         .eb-icon svg{width:22px;height:22px;color:var(--accent)}
         .empresa-benefit h4{font-size:.95rem;font-weight:700;color:var(--white);margin-bottom:3px}
         .empresa-benefit p{font-size:.85rem;color:rgba(255,255,255,.55);line-height:1.5}
-        .empresa-amount{margin-top:2rem;padding:2rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;text-align:center}
-        .empresa-amount p{color:rgba(255,255,255,.5);font-size:.8rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:.3rem}
-        .empresa-amount h2{font-size:3rem;font-weight:900;background:var(--gradient-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-        .empresa-amount span{color:rgba(255,255,255,.4);font-size:.85rem}
+        .empresa-amount{
+            margin-top:2rem;padding:2.2rem;
+            background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+            border-radius:var(--radius);text-align:center;
+            position:relative;overflow:hidden;
+        }
+        .empresa-amount::before{
+            content:'';position:absolute;inset:0;
+            background:radial-gradient(circle at center,rgba(212,160,41,0.06) 0%,transparent 70%);
+            pointer-events:none;
+        }
+        .empresa-amount p{color:rgba(255,255,255,.5);font-size:.8rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:.3rem;position:relative}
+        .empresa-amount h2{
+            font-size:3.2rem;font-weight:900;
+            background:var(--gradient-gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+            position:relative;
+            animation:amountGlow 3s ease-in-out infinite;
+        }
+        @keyframes amountGlow{
+            0%,100%{filter:drop-shadow(0 0 10px rgba(212,160,41,0))}
+            50%{filter:drop-shadow(0 0 20px rgba(212,160,41,0.3))}
+        }
+        .empresa-amount span{color:rgba(255,255,255,.4);font-size:.85rem;position:relative}
 
-        /* Formulario Empresas */
-        .empresa-form-box{background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:2.5rem}
+        /* Formulario Empresas — enhanced glassmorphism */
+        .empresa-form-box{
+            background:rgba(255,255,255,.05);backdrop-filter:blur(24px);
+            border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:2.5rem;
+            position:relative;
+            box-shadow:0 8px 32px rgba(0,0,0,.15),inset 0 1px 0 rgba(255,255,255,.06);
+        }
+        .empresa-form-box::before{
+            content:'';position:absolute;inset:-1px;border-radius:20px;padding:1px;
+            background:conic-gradient(from 180deg,rgba(212,160,41,0.2),rgba(59,125,216,0.15),transparent 60%);
+            -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+        }
         .empresa-form-box h3{font-size:1.2rem;font-weight:700;margin-bottom:.5rem}
         .empresa-form-box>p{font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:1.5rem}
         .ef-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem}
         .ef-field{margin-bottom:0}
         .ef-field.full{grid-column:1/-1}
         .ef-field label{display:block;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:4px;text-transform:uppercase;letter-spacing:.3px}
-        .ef-field input,.ef-field select,.ef-field textarea{width:100%;padding:11px 14px;border:1px solid rgba(255,255,255,.15);border-radius:10px;background:rgba(255,255,255,.06);color:var(--white);font-size:.9rem;font-family:inherit;transition:border-color .3s}
-        .ef-field input:focus,.ef-field select:focus,.ef-field textarea:focus{outline:none;border-color:var(--accent)}
+        .ef-field input,.ef-field select,.ef-field textarea{width:100%;padding:11px 14px;border:1px solid rgba(255,255,255,.12);border-radius:var(--radius-sm);background:rgba(255,255,255,.05);color:var(--white);font-size:.9rem;font-family:inherit;transition:all .3s}
+        .ef-field input:focus,.ef-field select:focus,.ef-field textarea:focus{outline:none;border-color:var(--accent);background:rgba(255,255,255,.08);box-shadow:0 0 0 3px rgba(212,160,41,.1)}
         .ef-field input::placeholder,.ef-field textarea::placeholder{color:rgba(255,255,255,.25)}
         .ef-field select option{background:var(--primary);color:#fff}
         .ef-field textarea{resize:vertical;min-height:70px}
-        .ef-btn{width:100%;padding:14px;background:var(--gradient-gold);border:none;border-radius:10px;font-size:.95rem;font-weight:700;color:var(--primary);cursor:pointer;font-family:inherit;transition:all .3s;margin-top:.5rem}
+        .ef-btn{width:100%;padding:15px;background:var(--gradient-gold);border:none;border-radius:var(--radius-sm);font-size:.95rem;font-weight:700;color:var(--primary);cursor:pointer;font-family:inherit;transition:all .3s;margin-top:.5rem;position:relative;overflow:hidden}
+        .ef-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);transition:left .6s}
+        .ef-btn:hover::before{left:100%}
         .ef-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(212,160,41,.4)}
 
-        /* SERVICIOS */
-        .services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem}
-        .service-item{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:1.8rem 1.3rem;text-align:center;transition:all .3s}
-        .service-item:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--accent)}
-        .service-item .svc-icon{width:48px;height:48px;border-radius:12px;background:var(--sky-light);color:var(--sky);display:flex;align-items:center;justify-content:center;margin:0 auto .8rem}
+        /* ═══════════════════════════════════════════════
+           SERVICIOS
+           ═══════════════════════════════════════════════ */
+        #servicios{background:var(--white)}
+        .services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3.5rem}
+        .service-item{
+            background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);
+            padding:2rem 1.5rem;text-align:center;transition:all .4s cubic-bezier(.4,0,.2,1);
+            position:relative;overflow:hidden;
+        }
+        .service-item::after{
+            content:'';position:absolute;inset:-1px;border-radius:var(--radius);padding:1px;
+            background:conic-gradient(from 0deg,transparent 75%,rgba(212,160,41,0.3) 85%,transparent 95%);
+            -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite:xor;mask-composite:exclude;
+            opacity:0;transition:opacity .4s;animation:borderSpin 5s linear infinite;
+        }
+        .service-item:hover::after{opacity:1}
+        .service-item:hover{transform:translateY(-6px) perspective(600px) rotateX(2deg);box-shadow:var(--shadow-lg);border-color:transparent}
+        .service-item .svc-icon{width:52px;height:52px;border-radius:12px;background:var(--sky-light);color:var(--sky);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem}
         .service-item:hover .svc-icon{background:var(--accent-light);color:var(--accent)}
         .service-item .svc-icon svg{width:22px;height:22px}
-        .service-item h4{font-size:.88rem;font-weight:700;color:var(--primary);margin-bottom:.4rem}
-        .service-item p{font-size:.8rem;color:var(--gray-600);line-height:1.5}
+        .service-item h4{font-size:.92rem;font-weight:700;color:var(--primary);margin-bottom:.5rem}
+        .service-item p{font-size:.82rem;color:var(--gray-600);line-height:1.55}
 
-        /* CTA */
-        .cta-section{background:var(--gradient-hero);padding:70px 2rem;text-align:center;position:relative;overflow:hidden}
-        .cta-section h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.4rem);color:var(--white);margin-bottom:.8rem;position:relative}
-        .cta-section p{color:rgba(255,255,255,.65);font-size:1.05rem;margin-bottom:1.8rem;position:relative}
+        /* ═══════════════════════════════════════════════
+           CTA SECTION
+           ═══════════════════════════════════════════════ */
+        .cta-section{
+            background:linear-gradient(135deg,#060d1a 0%,#0a1628 30%,#162d55 60%,#1a3f73 100%);
+            padding:90px 2rem;text-align:center;position:relative;overflow:hidden;
+        }
+        .cta-section::before{
+            content:'';position:absolute;inset:0;
+            background:
+                radial-gradient(ellipse 40% 50% at 30% 50%,rgba(59,125,216,0.1) 0%,transparent 60%),
+                radial-gradient(ellipse 40% 50% at 70% 50%,rgba(212,160,41,0.08) 0%,transparent 60%);
+            pointer-events:none;
+        }
+        /* Floating sparkle elements */
+        .cta-sparkle{position:absolute;pointer-events:none;opacity:0.15}
+        .cta-sparkle--1{top:20%;left:15%;font-size:1.5rem;animation:sparkle1 4s ease-in-out infinite}
+        .cta-sparkle--2{top:30%;right:18%;font-size:1rem;animation:sparkle2 5s ease-in-out infinite 1s}
+        .cta-sparkle--3{bottom:25%;left:25%;font-size:1.2rem;animation:sparkle1 6s ease-in-out infinite 2s}
+        .cta-sparkle--4{bottom:20%;right:10%;font-size:0.8rem;animation:sparkle2 3.5s ease-in-out infinite 0.5s}
+        @keyframes sparkle1{0%,100%{opacity:0.1;transform:scale(0.8) rotate(0deg)}50%{opacity:0.3;transform:scale(1.2) rotate(180deg)}}
+        @keyframes sparkle2{0%,100%{opacity:0.05;transform:scale(1)}50%{opacity:0.25;transform:scale(0.7) rotate(90deg)}}
+        .cta-section h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.5vw,2.6rem);color:var(--white);margin-bottom:1rem;position:relative}
+        .cta-section p{color:rgba(255,255,255,.65);font-size:1.08rem;margin-bottom:2rem;position:relative;max-width:600px;margin-inline:auto}
         .cta-section .btn{position:relative}
 
-        /* CONTACTO */
+        /* ═══════════════════════════════════════════════
+           CONTACTO
+           ═══════════════════════════════════════════════ */
         #contacto{background:var(--gray-50)}
-        .contact-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem}
-        .contact-card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:2rem 1.5rem;text-align:center;text-decoration:none;color:inherit;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:.6rem;position:relative;overflow:hidden}
+        .contact-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3.5rem}
+        .contact-card{
+            background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);
+            padding:2.2rem 1.5rem;text-align:center;text-decoration:none;color:inherit;
+            transition:all .4s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;
+            align-items:center;gap:.6rem;position:relative;overflow:hidden;
+        }
         .contact-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--card-color)}
-        .contact-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:transparent}
-        .cc-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center}
+        .contact-card::after{
+            content:'';position:absolute;inset:-1px;border-radius:var(--radius);padding:1px;
+            background:conic-gradient(from 0deg,transparent 75%,var(--card-color,rgba(212,160,41,0.3)) 85%,transparent 95%);
+            -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite:xor;mask-composite:exclude;
+            opacity:0;transition:opacity .4s;animation:borderSpin 5s linear infinite;
+        }
+        .contact-card:hover::after{opacity:1}
+        .contact-card:hover{transform:translateY(-8px) perspective(600px) rotateX(2deg);box-shadow:var(--shadow-xl);border-color:transparent}
+        .cc-icon{width:60px;height:60px;border-radius:14px;display:flex;align-items:center;justify-content:center}
         .cc-icon svg{width:26px;height:26px}
-        .contact-card h3{font-size:1.05rem;font-weight:700;color:var(--primary)}
-        .contact-card p{font-size:.84rem;color:var(--gray-600);line-height:1.5;flex:1}
+        .contact-card h3{font-size:1.08rem;font-weight:700;color:var(--primary)}
+        .contact-card p{font-size:.84rem;color:var(--gray-600);line-height:1.55;flex:1}
         .cc-action{display:inline-block;padding:10px 22px;border-radius:50px;font-size:.82rem;font-weight:700;margin-top:.5rem;transition:transform .3s,box-shadow .3s}
         .contact-card:hover .cc-action{transform:translateY(-2px);box-shadow:0 4px 15px rgba(0,0,0,.15)}
-        .contact-schedule{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:2rem;padding:1rem;background:var(--white);border-radius:var(--radius-sm);border:1px solid var(--gray-200);color:var(--gray-600);font-size:.88rem}
+        .contact-schedule{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:2.5rem;padding:1.2rem;background:var(--white);border-radius:var(--radius-sm);border:1px solid var(--gray-200);color:var(--gray-600);font-size:.88rem}
         .contact-schedule svg{color:var(--accent);flex-shrink:0}
 
-        /* FOOTER */
-        footer{background:var(--primary);padding:50px 2rem 25px;color:rgba(255,255,255,.6)}
+        /* ═══════════════════════════════════════════════
+           FOOTER
+           ═══════════════════════════════════════════════ */
+        footer{background:var(--primary);padding:0 2rem 25px;color:rgba(255,255,255,.6);position:relative}
+        /* Animated gradient top border */
+        footer::before{
+            content:'';position:absolute;top:0;left:0;right:0;height:4px;
+            background:linear-gradient(90deg,var(--accent),var(--sky),#8b5cf6,var(--accent));
+            background-size:300% 100%;
+            animation:footerBorderShift 6s linear infinite;
+        }
+        @keyframes footerBorderShift{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+        .footer-inner{padding-top:50px}
         .footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:2.5rem}
         .footer-brand p{font-size:.85rem;line-height:1.7;margin-top:.8rem}
         footer h4{color:var(--white);font-size:.85rem;font-weight:700;margin-bottom:1rem;text-transform:uppercase;letter-spacing:1px}
@@ -527,22 +830,48 @@
         footer ul li{margin-bottom:.5rem}
         footer ul a{color:rgba(255,255,255,.6);text-decoration:none;font-size:.85rem;transition:color .3s}
         footer ul a:hover{color:var(--accent)}
+        .footer-badge{display:inline-flex;align-items:center;gap:6px;margin-top:1rem;padding:6px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:8px;font-size:.75rem;color:rgba(255,255,255,.5)}
         .footer-bottom{max-width:1200px;margin:0 auto;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center;font-size:.8rem}
         .footer-social{display:flex;gap:.8rem}
-        .footer-social a{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.6);transition:all .3s;text-decoration:none}
-        .footer-social a:hover{background:var(--accent);color:var(--primary)}
+        .footer-social a{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.6);transition:all .3s;text-decoration:none}
+        .footer-social a:hover{background:var(--accent);color:var(--primary);transform:translateY(-2px)}
         .footer-social a svg{width:16px;height:16px}
 
-        /* WhatsApp Float */
-        .wa-float{position:fixed;bottom:2rem;right:2rem;width:56px;height:56px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;color:white;box-shadow:0 4px 20px rgba(37,211,102,.4);z-index:999;transition:transform .3s;text-decoration:none}
+        /* ═══════════════════════════════════════════════
+           WHATSAPP FLOAT + Pulse ring
+           ═══════════════════════════════════════════════ */
+        .wa-float{position:fixed;bottom:2rem;right:2rem;width:60px;height:60px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;color:white;box-shadow:0 4px 20px rgba(37,211,102,.4);z-index:999;transition:transform .3s;text-decoration:none}
         .wa-float:hover{transform:scale(1.1)}
         .wa-float svg{width:28px;height:28px}
+        .wa-float::before{
+            content:'';position:absolute;inset:-6px;border-radius:50%;
+            border:2px solid rgba(37,211,102,0.4);
+            animation:waPulse 2s ease-in-out infinite;
+        }
+        .wa-float::after{
+            content:'';position:absolute;inset:-12px;border-radius:50%;
+            border:1px solid rgba(37,211,102,0.2);
+            animation:waPulse 2s ease-in-out infinite 0.5s;
+        }
+        @keyframes waPulse{0%{transform:scale(1);opacity:1}100%{transform:scale(1.4);opacity:0}}
 
-        /* RESPONSIVE */
+        /* ═══════════════════════════════════════════════
+           REVEAL ANIMATIONS
+           ═══════════════════════════════════════════════ */
+        .reveal{opacity:0;transform:translateY(30px);transition:all .8s cubic-bezier(.4,0,.2,1)}
+        .reveal.visible{opacity:1;transform:translateY(0)}
+        .reveal-delay-1{transition-delay:.1s}
+        .reveal-delay-2{transition-delay:.2s}
+        .reveal-delay-3{transition-delay:.3s}
+        .reveal-delay-4{transition-delay:.4s}
+
+        /* ═══════════════════════════════════════════════
+           RESPONSIVE
+           ═══════════════════════════════════════════════ */
         @media(max-width:1024px){
             .modalities-grid,.promos-grid{grid-template-columns:1fr}
             .steps-grid{grid-template-columns:repeat(2,1fr)}
-            .steps-grid::before{display:none}
+            .steps-line{display:none}
             .services-grid{grid-template-columns:repeat(2,1fr)}
             .empresas-grid{grid-template-columns:1fr}
             .loyalty-section{grid-template-columns:1fr}
@@ -553,25 +882,28 @@
         @media(max-width:768px){
             .hero{padding:90px 1.2rem 50px;min-height:auto}
             .hero-content{grid-template-columns:1fr;text-align:center;gap:2rem}
-            .hero h1{font-size:clamp(1.8rem,7vw,2.4rem)}
+            .hero h1{font-size:clamp(2rem,8vw,2.8rem)}
             .hero-sub{margin-inline:auto;font-size:.95rem;margin-bottom:1.5rem}
             .hero-badge{font-size:.72rem;padding:6px 14px}
             .hero-buttons{justify-content:center;flex-direction:column;align-items:center;gap:.8rem}
             .hero-buttons .btn{width:100%;justify-content:center;padding:13px 20px;font-size:.85rem}
             .hero-stats{justify-content:center;flex-wrap:wrap;gap:1.5rem;margin-top:1.5rem;padding-top:1.2rem}
-            .stat-item h3{font-size:1.4rem}
+            .stat-item h3{font-size:1.5rem}
             .hero-airlines{justify-content:center;flex-wrap:wrap;gap:.8rem;margin-top:1.2rem}
             .airline-logos{gap:.8rem}
             .airline-logo{padding:6px 12px;font-size:.75rem}
             .hero-visual{margin-top:1.5rem}
             .hero-card{padding:1.8rem 1.2rem}
+            .hero-card::before{display:none}
+            .hero-orb{display:none}
             .nav{padding:0 1rem}
             .nav-inner{height:64px}
             .logo img{height:40px}
             .nav-links{display:none}
             .hamburger{display:flex}
             .nav-links.active{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:rgba(10,22,40,.98);padding:1.5rem;gap:1.2rem;backdrop-filter:blur(20px)}
-            section{padding:60px 1.2rem}
+            .nav-links.active a::after{display:none}
+            section{padding:70px 1.2rem}
             .steps-grid,.services-grid,.promos-grid{grid-template-columns:1fr}
             .contact-cards{grid-template-columns:1fr 1fr}
             .hc-row,.ef-row{grid-template-columns:1fr}
@@ -583,16 +915,26 @@
             .loyalty-card-interactive{padding:1.2rem}
             .lci-stamps{gap:.5rem}
             .empresa-form-box{padding:1.8rem 1.2rem}
+            .empresa-form-box::before{display:none}
             #empresas{padding:60px 1.2rem}
             .cta-section{padding:50px 1.2rem}
+            .cursor-glow{display:none!important}
+            /* Disable 3D tilt on mobile */
+            .modality-card:hover,.promo-card:hover,.service-item:hover,.contact-card:hover{
+                transform:translateY(-4px)!important;
+            }
         }
-
-        /* Reveal */
-        .reveal{opacity:0;transform:translateY(25px);transition:all .7s cubic-bezier(.4,0,.2,1)}
-        .reveal.visible{opacity:1;transform:translateY(0)}
+        @media(max-width:480px){
+            .contact-cards{grid-template-columns:1fr}
+            .hero-stats{gap:1rem}
+            .stat-item h3{font-size:1.3rem}
+        }
     </style>
 </head>
 <body>
+
+<!-- CURSOR GLOW -->
+<div class="cursor-glow" id="cursorGlow"></div>
 
 <!-- NAV -->
 <nav class="nav" id="nav">
@@ -617,6 +959,10 @@
 
 <!-- HERO -->
 <section class="hero">
+    <div class="hero-orb hero-orb--1"></div>
+    <div class="hero-orb hero-orb--2"></div>
+    <div class="hero-orb hero-orb--3"></div>
+    <div class="hero-orb hero-orb--4"></div>
     <div class="hero-particles" id="particles"></div>
     <div class="hero-content">
         <div>
@@ -637,9 +983,9 @@
                 </a>
             </div>
             <div class="hero-stats">
-                <div class="stat-item"><h3>5,000+</h3><p>Vuelos financiados</p></div>
-                <div class="stat-item"><h3>98%</h3><p>Clientes satisfechos</p></div>
-                <div class="stat-item"><h3>0%</h3><p>Intereses sobre tu vuelo</p></div>
+                <div class="stat-item"><h3 data-count="5000">0</h3><p>Vuelos financiados</p></div>
+                <div class="stat-item"><h3 data-count="98">0</h3><p>Clientes satisfechos</p></div>
+                <div class="stat-item"><h3 data-count="0">0</h3><p>Intereses sobre tu vuelo</p></div>
             </div>
             <div class="hero-airlines">
                 <span>Aerolíneas:</span>
@@ -688,6 +1034,11 @@
     </div>
 </section>
 
+<!-- WAVE: Hero (dark) → Como Funciona (light) -->
+<div class="wave-divider wave-divider--dark-to-light" style="background:var(--gradient-hero);margin-top:-1px">
+    <svg viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,40 C360,100 1080,0 1440,60 L1440,100 L0,100 Z"/></svg>
+</div>
+
 <!-- COMO FUNCIONA -->
 <section id="como-funciona">
     <div class="container text-center">
@@ -695,22 +1046,23 @@
         <h2 class="section-title reveal">Cómo comprar vuelos baratos a crédito</h2>
         <p class="section-desc reveal">En 4 pasos tienes tu vuelo reservado y pagándolo a tu ritmo.</p>
         <div class="steps-grid">
-            <div class="step reveal">
+            <div class="steps-line"><div class="steps-line-fill" id="stepsLineFill"></div></div>
+            <div class="step reveal reveal-delay-1">
                 <div class="step-num">1</div>
                 <h4>Cotiza tu vuelo</h4>
                 <p>Dinos a dónde vas, cuándo y cuántos viajan. Te damos el precio exacto al instante.</p>
             </div>
-            <div class="step reveal">
+            <div class="step reveal reveal-delay-2">
                 <div class="step-num">2</div>
                 <h4>Paga tu enganche</h4>
                 <p>El enganche es aproximadamente el 40% del vuelo. Con eso tu vuelo queda apartado al precio del día.</p>
             </div>
-            <div class="step reveal">
+            <div class="step reveal reveal-delay-3">
                 <div class="step-num">3</div>
                 <h4>Paga en semanas o quincenas</h4>
                 <p>El resto lo pagas en cómodas parcialidades semanales o quincenales. Tú eliges.</p>
             </div>
-            <div class="step reveal">
+            <div class="step reveal reveal-delay-4">
                 <div class="step-num">4</div>
                 <h4>Recibe tus pases y vuela</h4>
                 <p>3 días antes de tu vuelo ya debe estar liquidado. Recibe tus pases de abordar y disfruta.</p>
@@ -753,6 +1105,11 @@
     </div>
 </section>
 
+<!-- WAVE: Como Funciona (light) → Modalidades (white) -->
+<div class="wave-divider wave-divider--light-to-white" style="background:var(--gray-50);margin-top:-1px">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,20 C480,80 960,0 1440,40 L1440,80 L0,80 Z"/></svg>
+</div>
+
 <!-- MODALIDADES -->
 <section id="modalidades">
     <div class="container text-center">
@@ -760,7 +1117,7 @@
         <h2 class="section-title reveal">Modalidades de pago para vuelos económicos</h2>
         <p class="section-desc reveal">Tres opciones pensadas para cada tipo de viajero.</p>
         <div class="modalities-grid">
-            <div class="modality-card reveal">
+            <div class="modality-card reveal reveal-delay-1">
                 <div class="modality-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
                 <h3>Crédito Personal</h3>
                 <p>Para cualquier persona. Aparta tu vuelo con el enganche (~40%) y paga el resto en semanas o quincenas. <strong>Tu vuelo debe estar liquidado 3 días antes de volar.</strong></p>
@@ -773,7 +1130,7 @@
                     <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Precio garantizado al apartar</li>
                 </ul>
             </div>
-            <div class="modality-card reveal">
+            <div class="modality-card reveal reveal-delay-2">
                 <div class="modality-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
                 <h3>Crédito Empresarial</h3>
                 <p><strong>Vuela ahora, paga después.</strong> Línea de crédito hasta $100,000 MXN para empresas establecidas y gobierno. Paga incluso hasta 1 mes después de volar.</p>
@@ -786,7 +1143,7 @@
                     <li><svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Ejecutivo de cuenta dedicado</li>
                 </ul>
             </div>
-            <div class="modality-card reveal">
+            <div class="modality-card reveal reveal-delay-3">
                 <div class="modality-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
                 <h3>Pago de Contado</h3>
                 <p>Compra tu vuelo al instante. Servicio completo: reservación, selección de asientos, pases de abordar y asistencia personalizada.</p>
@@ -803,6 +1160,11 @@
     </div>
 </section>
 
+<!-- WAVE: Modalidades (white) → Promociones (light) -->
+<div class="wave-divider wave-divider--white-to-light" style="background:var(--white);margin-top:-1px">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,50 C360,0 1080,80 1440,30 L1440,80 L0,80 Z"/></svg>
+</div>
+
 <!-- PROMOCIONES -->
 <section id="promociones">
     <div class="container">
@@ -812,19 +1174,19 @@
             <p class="section-desc reveal">Cada vuelo que compras te acerca a increíbles regalos. Todos tus vuelos participan.</p>
         </div>
         <div class="promos-grid">
-            <div class="promo-card reveal">
+            <div class="promo-card reveal reveal-delay-1">
                 <div class="promo-icon">📺</div>
                 <h3>Sorteo de TV Hisense 32"</h3>
                 <p>Por cada vuelo que compres recibes un boleto para el sorteo de una Smart TV Hisense de 32". Tómbola el 31 de marzo. Mientras más vuelos, más boletos y más oportunidades de ganar.</p>
                 <div class="promo-badge">1 boleto por vuelo</div>
             </div>
-            <div class="promo-card reveal">
+            <div class="promo-card reveal reveal-delay-2">
                 <div class="promo-icon">🥤</div>
                 <h3>Licuadora Ninja Portátil</h3>
                 <p>Al completar tu 6to vuelo te regalamos una licuadora Ninja portátil. Acumula tus sellos en tu tarjeta de fidelidad con cada vuelo que reserves con nosotros.</p>
                 <div class="promo-badge">Al 6to vuelo</div>
             </div>
-            <div class="promo-card reveal">
+            <div class="promo-card reveal reveal-delay-3">
                 <div class="promo-icon">📱</div>
                 <h3>Celular Honor Play 10</h3>
                 <p>Nuestra máxima recompensa: al completar tu 10mo vuelo te llevas un smartphone Honor Play 10 totalmente gratis. Tu fidelidad tiene premio.</p>
@@ -875,8 +1237,15 @@
     </div>
 </section>
 
+<!-- WAVE: Promociones (light) → Empresas (dark) -->
+<div class="wave-divider wave-divider--light-to-dark" style="background:var(--gray-50);margin-top:-1px">
+    <svg viewBox="0 0 1440 100" preserveAspectRatio="none"><path d="M0,60 C480,0 960,100 1440,40 L1440,100 L0,100 Z"/></svg>
+</div>
+
 <!-- EMPRESAS Y GOBIERNO -->
 <section id="empresas">
+    <div class="emp-deco emp-deco--1"></div>
+    <div class="emp-deco emp-deco--2"></div>
     <div class="container empresas-layout">
         <div class="empresas-top">
             <div class="section-label">Empresas y Gobierno</div>
@@ -971,28 +1340,33 @@
     </div>
 </section>
 
+<!-- WAVE: Empresas (dark) → Servicios (white) -->
+<div class="wave-divider wave-divider--dark-to-white" style="background:var(--gradient-hero);margin-top:-1px">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,30 C360,80 1080,0 1440,50 L1440,80 L0,80 Z"/></svg>
+</div>
+
 <!-- SERVICIOS -->
 <section id="servicios">
     <div class="container text-center">
         <div class="section-label">Servicios Incluidos</div>
         <h2 class="section-title reveal">Servicios de agencia de viajes incluidos</h2>
         <div class="services-grid">
-            <div class="service-item reveal">
+            <div class="service-item reveal reveal-delay-1">
                 <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L2 8.67l7.33 3.33L22 2z"/><path d="M22 2l-8.67 20-3.33-7.33L22 2z"/></svg></div>
                 <h4>Reservación de Vuelos</h4>
                 <p>Las mejores tarifas en Viva Aerobus y Volaris. Nacionales e internacionales.</p>
             </div>
-            <div class="service-item reveal">
+            <div class="service-item reveal reveal-delay-2">
                 <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg></div>
                 <h4>Pases de Abordar</h4>
                 <p>Check-in, selección de asientos y entrega de pases de abordar.</p>
             </div>
-            <div class="service-item reveal">
+            <div class="service-item reveal reveal-delay-3">
                 <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
                 <h4>Cambios y Cancelaciones</h4>
                 <p>Gestión de cambios de itinerario, cancelaciones y reembolsos.</p>
             </div>
-            <div class="service-item reveal">
+            <div class="service-item reveal reveal-delay-4">
                 <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
                 <h4>Asistencia 24/7</h4>
                 <p>Soporte por WhatsApp, teléfono y correo en cualquier momento.</p>
@@ -1003,9 +1377,18 @@
 
 <!-- CTA -->
 <div class="cta-section">
+    <div class="cta-sparkle cta-sparkle--1">&#10022;</div>
+    <div class="cta-sparkle cta-sparkle--2">&#10022;</div>
+    <div class="cta-sparkle cta-sparkle--3">&#10022;</div>
+    <div class="cta-sparkle cta-sparkle--4">&#10022;</div>
     <h2 class="reveal">Compra vuelos baratos hoy y paga a plazos</h2>
     <p class="reveal">Cotiza tu vuelo económico y recibe tu plan de pagos personalizado en minutos. Sin intereses ni buró de crédito.</p>
     <a href="#hero-sim" class="btn btn-primary reveal">Simular Mi Plan de Pagos</a>
+</div>
+
+<!-- WAVE: CTA (dark) → Contacto (light) -->
+<div class="wave-divider wave-divider--dark-to-light" style="background:linear-gradient(135deg,#060d1a 0%,#0a1628 30%,#162d55 60%,#1a3f73 100%);margin-top:-1px">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,40 C480,80 960,10 1440,50 L1440,80 L0,80 Z"/></svg>
 </div>
 
 <!-- CONTACTO -->
@@ -1051,12 +1434,17 @@
 
 <!-- FOOTER -->
 <footer>
+    <div class="footer-inner">
     <div class="footer-grid">
         <div class="footer-brand">
             <a href="#" class="logo">
                 <img src="logo.png" alt="Vuelos a Crédito - Agencia de viajes con vuelos baratos a crédito en México" style="height:42px">
             </a>
             <p>Somos tu agencia de viajes en México especializada en vuelos baratos a crédito. Compra vuelos económicos en Viva Aerobus y Volaris y paga en semanas o quincenas sin intereses. Crédito empresarial hasta $100,000 MXN. Vuelos nacionales e internacionales con financiamiento inteligente y atención personalizada.</p>
+            <div class="footer-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Hecho en México
+            </div>
         </div>
         <div>
             <h4>Servicios</h4>
@@ -1093,6 +1481,7 @@
             <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><path d="M17.5 6.5h.01"/></svg></a>
             <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.46V13a8.26 8.26 0 005.58 2.17V11.7a4.83 4.83 0 01-3.77-1.24V6.69h3.77z"/></svg></a>
         </div>
+    </div>
     </div>
 </footer>
 
@@ -1141,15 +1530,21 @@
 </div>
 
 <script>
-// Nav scroll
+// ═══════════════════════════════════════════════
+// NAV SCROLL
+// ═══════════════════════════════════════════════
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
 
-// Hamburger
+// ═══════════════════════════════════════════════
+// HAMBURGER
+// ═══════════════════════════════════════════════
 document.getElementById('hamburger').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('active'));
 document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('active')));
 
-// Particles
+// ═══════════════════════════════════════════════
+// PARTICLES
+// ═══════════════════════════════════════════════
 const particlesEl = document.getElementById('particles');
 for (let i = 0; i < 15; i++) {
     const p = document.createElement('div');
@@ -1163,7 +1558,27 @@ for (let i = 0; i < 15; i++) {
     particlesEl.appendChild(p);
 }
 
-// Reveal on scroll
+// ═══════════════════════════════════════════════
+// CURSOR GLOW (desktop only)
+// ═══════════════════════════════════════════════
+(function() {
+    var glow = document.getElementById('cursorGlow');
+    if (window.innerWidth < 768) return;
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+    document.addEventListener('mousemove', function(e) {
+        glow.style.left = e.clientX + 'px';
+        glow.style.top = e.clientY + 'px';
+        if (!glow.classList.contains('visible')) glow.classList.add('visible');
+    });
+    document.addEventListener('mouseleave', function() {
+        glow.classList.remove('visible');
+    });
+})();
+
+// ═══════════════════════════════════════════════
+// REVEAL ON SCROLL (staggered)
+// ═══════════════════════════════════════════════
 const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
@@ -1174,12 +1589,82 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Set default date (2 months from now)
+// ═══════════════════════════════════════════════
+// ANIMATED STEP LINE (fills on scroll)
+// ═══════════════════════════════════════════════
+(function() {
+    var lineFill = document.getElementById('stepsLineFill');
+    if (!lineFill) return;
+    var stepsSection = document.getElementById('como-funciona');
+    var lineObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                lineFill.style.width = '100%';
+                lineObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+    lineObs.observe(stepsSection);
+})();
+
+// ═══════════════════════════════════════════════
+// ANIMATED STAT COUNTERS
+// ═══════════════════════════════════════════════
+(function() {
+    var statItems = document.querySelectorAll('.stat-item h3[data-count]');
+    var animated = false;
+    function animateCounters() {
+        if (animated) return;
+        animated = true;
+        statItems.forEach(function(el) {
+            var target = parseInt(el.getAttribute('data-count'));
+            var suffix = '';
+            // Determine suffix from original content
+            var parent = el.closest('.stat-item');
+            var label = parent ? parent.querySelector('p').textContent : '';
+            if (label.indexOf('satisfechos') !== -1) suffix = '%';
+            else if (label.indexOf('Intereses') !== -1) suffix = '%';
+            else suffix = '+';
+
+            if (target === 0) {
+                el.textContent = '0%';
+                return;
+            }
+            var duration = 2000;
+            var startTime = null;
+            function step(ts) {
+                if (!startTime) startTime = ts;
+                var progress = Math.min((ts - startTime) / duration, 1);
+                var eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+                var current = Math.floor(eased * target);
+                el.textContent = current.toLocaleString() + suffix;
+                if (progress < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        });
+    }
+    var statsObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                animateCounters();
+                statsObs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+    var heroStats = document.querySelector('.hero-stats');
+    if (heroStats) statsObs.observe(heroStats);
+})();
+
+// ═══════════════════════════════════════════════
+// DEFAULT DATE (2 months from now)
+// ═══════════════════════════════════════════════
 const defaultDate = new Date();
 defaultDate.setMonth(defaultDate.getMonth() + 2);
 document.getElementById('hDate').value = defaultDate.toISOString().split('T')[0];
 
-// Currency format for cost input
+// ═══════════════════════════════════════════════
+// CURRENCY FORMAT
+// ═══════════════════════════════════════════════
 const hCostInput = document.getElementById('hCost');
 function formatCurrencyInput(val) {
     const num = parseFloat(val.replace(/[^0-9.]/g, '')) || 0;
@@ -1197,22 +1682,19 @@ hCostInput.addEventListener('blur', function() {
     this.value = num > 0 ? formatCurrencyInput(this.value) : '';
 });
 
-// ── CALCULATOR ENGINE ──
+// ═══════════════════════════════════════════════
+// CALCULATOR ENGINE
+// ═══════════════════════════════════════════════
 function calcEnganche(cost) {
-    // ~40% del vuelo, redondeado a centenas
     return Math.round((cost * 0.4) / 100) * 100;
 }
 
 function getLastPaymentDate(flightDate, freq) {
-    // Fecha límite: 3 días antes del vuelo
     const cutoff = new Date(flightDate);
     cutoff.setDate(cutoff.getDate() - 3);
 
     if (freq === 'semanal') {
-        // Último sábado antes o en la fecha de corte
-        const day = cutoff.getDay(); // 0=dom,1=lun,...6=sab
-        const diff = day === 6 ? 0 : (day === 0 ? -1 : -(day + 1));
-        // Actually: we need the last Saturday <= cutoff
+        const day = cutoff.getDay();
         const lastSat = new Date(cutoff);
         if (day === 6) {
             // already saturday
@@ -1223,8 +1705,6 @@ function getLastPaymentDate(flightDate, freq) {
         }
         return lastSat;
     } else {
-        // Quincenal: pagos caen 1 y 15 de cada mes
-        // Encontrar el último 1 o 15 que sea <= cutoff
         const year = cutoff.getFullYear();
         const month = cutoff.getMonth();
         const dayOfMonth = cutoff.getDate();
@@ -1234,7 +1714,6 @@ function getLastPaymentDate(flightDate, freq) {
         } else if (dayOfMonth >= 1) {
             return new Date(year, month, 1);
         } else {
-            // Edge case: go to previous month's 15th
             return new Date(year, month - 1, 15);
         }
     }
@@ -1245,7 +1724,6 @@ function getPaymentDates(startDate, lastPayDate, freq) {
     let current = new Date(startDate);
 
     if (freq === 'semanal') {
-        // Primer sábado después del inicio
         const day = current.getDay();
         if (day !== 6) {
             current.setDate(current.getDate() + (6 - day));
@@ -1255,8 +1733,6 @@ function getPaymentDates(startDate, lastPayDate, freq) {
             current.setDate(current.getDate() + 7);
         }
     } else {
-        // Quincenal: 1 y 15 de cada mes
-        // Encontrar el próximo 1 o 15
         let d = current.getDate();
         let m = current.getMonth();
         let y = current.getFullYear();
@@ -1266,7 +1742,6 @@ function getPaymentDates(startDate, lastPayDate, freq) {
         } else if (d <= 15) {
             current = new Date(y, m, 15);
         } else {
-            // Next month 1st
             current = new Date(y, m + 1, 1);
         }
 
@@ -1316,7 +1791,6 @@ function runCalculation(cost, flightDateStr, freq, pax) {
         return { error: 'No hay tiempo suficiente para completar pagos ' + (freq === 'semanal' ? 'semanales' : 'quincenales') + ' antes de tu vuelo. Intenta con una fecha más lejana o cambia la frecuencia.' };
     }
 
-    // Start date: tomorrow
     const startDate = new Date(today);
     startDate.setDate(startDate.getDate() + 1);
 
@@ -1347,7 +1821,9 @@ function runCalculation(cost, flightDateStr, freq, pax) {
     };
 }
 
-// ── MODAL FLOW ──
+// ═══════════════════════════════════════════════
+// MODAL FLOW
+// ═══════════════════════════════════════════════
 let pendingResult = null;
 
 function closeModals() {
@@ -1355,7 +1831,6 @@ function closeModals() {
     document.getElementById('resultModal').classList.remove('active');
 }
 
-// Close modals on overlay click
 document.getElementById('leadModal').addEventListener('click', function(e) { if (e.target === this) closeModals(); });
 document.getElementById('resultModal').addEventListener('click', function(e) { if (e.target === this) closeModals(); });
 
@@ -1385,7 +1860,6 @@ function submitLead() {
 
     if (!name || !phone || !email) { alert('Por favor completa todos los campos.'); return; }
 
-    // Close lead modal, show result
     document.getElementById('leadModal').classList.remove('active');
     showResultModal(pendingResult, name);
 }
@@ -1396,7 +1870,6 @@ function showResultModal(r, leadName) {
     const pax = r.pax;
     const cost = r.costPerPax;
 
-    // Schedule rows
     let scheduleHtml = '<div class="mr-schedule"><h4>Calendario de pagos</h4>';
     scheduleHtml += '<div class="mr-schedule-item"><span>Hoy &mdash; Enganche</span><strong>' + formatMXN(r.enganche) + '</strong></div>';
     r.payDates.forEach((d, i) => {
@@ -1431,8 +1904,9 @@ function showResultModal(r, leadName) {
     document.getElementById('resultModal').classList.add('active');
 }
 
-// ── FORMS ──
-// ── LOYALTY CARD INTERACTIVE ──
+// ═══════════════════════════════════════════════
+// LOYALTY CARD INTERACTIVE
+// ═══════════════════════════════════════════════
 const loyaltyData = [
     {n:1, label:'Boleto TV'}, {n:2, label:'Boleto TV'}, {n:3, label:'Boleto TV'},
     {n:4, label:'Boleto TV'}, {n:5, label:'Boleto TV'},
@@ -1470,7 +1944,7 @@ function buildStamps() {
 buildStamps();
 
 function stampClick(n) {
-    if (n !== loyaltyCount + 1) return; // must go in order
+    if (n !== loyaltyCount + 1) return;
     loyaltyCount = n;
     const stamp = document.querySelector('.lci-stamp[data-n="'+n+'"]');
     stamp.classList.add('stamped');
